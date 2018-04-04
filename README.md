@@ -1,2 +1,3 @@
-# huckleberryinsights.github.io
-Repo for warehousing my public domain
+# Huckleberry Insights Domain
+
+Updating site readme
