@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tidyverse on Introduction</title>
+    <link>https://huckleberryinsights.github.io/tags/tidyverse/</link>
+    <description>Recent content in Tidyverse on Introduction</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 11 Apr 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://huckleberryinsights.github.io/tags/tidyverse/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Into the Tidyverse</title>
+      <link>https://huckleberryinsights.github.io/blog/2017-04-11-into-the-tidyverse/</link>
+      <pubDate>Tue, 11 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/blog/2017-04-11-into-the-tidyverse/</guid>
+      <description>Today’s purposeTo walk through the tidyverse and become familiar with the functions that it provides the user and how it can make your life so much better to use.
+What the heck even is a tidyverse?tidyverse is a collection of R packages providing an all-inclusive resource for data science (well, almost). When you library(tidyverse) the following packages are loaded up as dependencies:
+PackageDescriptionggplot2Graphics-building package based on The Grammar of Graphics mapping aesthetics to data visuallytibbleWrapper on traditional dataframes allowing for better printing and viewing datatidyrPackage to easily and quickly get your data into a rectangular format (if not already in one)readrSuper fast package for reading in rectangular data (like csv, tsv, and fwf)purrrA set of tools for working with functions and vectors for functional programming techniquesdplyrQuickly and efficiently manipulate data with a Grammar of Manipulation (just made that up)Within each of these there are a handful of other dependencies - not all of which I am going to talk through.</description>
+    </item>
+    
+  </channel>
+</rss>

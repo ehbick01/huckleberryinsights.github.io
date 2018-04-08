@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Solving problems one dataset at a time">
+
+<base href="https://huckleberryinsights.github.io/">
+<title>
+
+
+     Scraping Whiskey Reviews Using Scrapy 
+
+</title>
+<link rel="canonical" href="https://huckleberryinsights.github.io/blog/2017-04-04-scrapy-overview/">
+
+
+
+
+
+
+<script type="text/javascript" src="https://huckleberryinsights.github.io/js/jquery-3.3.1.min.js"></script>
+
+
+<link rel="stylesheet" href="https://huckleberryinsights.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://huckleberryinsights.github.io/css/nunito_sans.css">
+
+
+    <link rel="stylesheet" href="css/light-style.css">
+
+
+
+
+
+
+<link rel="shortcut icon" href="img/fav.ico">
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+<div class="section" id="top">
+
+    <div class="container hero fade-in one">
+    <h1 class="bold-title is-1">Blog</h1>
+    </div>
+
+
+<div class="section fade-in two">
+
+    <div class="container">
+    <hr>
+<nav class="nav nav-center">
+    <span id="nav-toggle" class="nav-toggle"  onclick="document.getElementById('nav-menu').classList.toggle('is-active');">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <div id="nav-menu" class="nav-left nav-menu">
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/">Main</a>
+      </span>
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/#about">About</a>
+      </span>
+      
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/blog">Back to blog</a>
+      </span>
+      
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/#contact">Contact</a>
+      </span>
+    
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/index.xml"><i class="fa fa-rss"></i></a>
+      </span>
+    
+    </div>
+</nav>
+<hr>
+
+    </div>
+
+    <div class="container fade-in two">
+        <h2 class="title is-1 top-pad strong-post-title"><a href="https://huckleberryinsights.github.io/blog/2017-04-04-scrapy-overview/">Scraping Whiskey Reviews Using Scrapy</a></h2>
+            <div class="post-data">
+                Apr 00, 4048 |
+                4 minutes read
+            </div>
+
+            
+                <div class="blog-share">
+                Share this:
+                
+                <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Read%20Scraping%20Whiskey%20Reviews%20Using%20Scrapy%20https%3a%2f%2fhuckleberryinsights.github.io%2fblog%2f2017-04-04-scrapy-overview%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+                </a>
+                
+                 
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhuckleberryinsights.github.io%2fblog%2f2017-04-04-scrapy-overview%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+                </a>
+                
+                
+                
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhuckleberryinsights.github.io%2fblog%2f2017-04-04-scrapy-overview%2f"
+                onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-google-plus"></i>
+                <span class="hidden">Google+</span>
+                </a>
+                
+                </div>
+            
+
+    </div>
+
+    <div class="container markdown fade-in two top-pad">
+        
+
+<h2 id="background">Background</h2>
+
+<p>This is a working document to help understand the first stage of this project - the data grab. It is also a helpful learning tool for myself, as this is the first <strong>real</strong> spider that I&rsquo;ve created to pull data from a website.</p>
+
+<h2 id="setup">Setup</h2>
+
+<p>The initial setup is quick, simply <code>cd</code> into the directory that you want to work in and run -</p>
+
+<pre><code>scrapy startproject whiskey_reviews
+</code></pre>
+
+<p>Easy enough.</p>
+
+<h2 id="initial-file-structure">Initial file structure</h2>
+
+<p>The above command builds out the following file structure (which has been pushed <a href="https://github.com/ehbick01/whiskey-review">here</a>):</p>
+
+<pre><code>whiskey_reviews
+|-- whiskey_reviews
+    |-- spiders
+        |--__init__.py
+    |-- __init__.py
+    |-- items.py
+    |-- middlewares.py
+    |-- pipelines.py
+    |-- settings.py
+|-- scrapy.cfg
+</code></pre>
+
+<p><strong>File descriptors</strong>
+To understand the infrascture that&rsquo;s been built, let&rsquo;s break down the files and filepaths and what they are doing</p>
+
+<p><em>/whiskey_reviews</em></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">File</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><em>/whiskey_reviews</em></td>
+<td align="left">Project&rsquo;s Python module where code will be imported from</td>
+</tr>
+
+<tr>
+<td align="left"><code>scrapy.cfg</code></td>
+<td align="left">Deployment configuration file</td>
+</tr>
+</tbody>
+</table>
+
+<p><em>/whiskey_reviews/whiskey_reviews</em></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">File</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><em>/spiders</em></td>
+<td align="left">Directory for spiders to be placed</td>
+</tr>
+
+<tr>
+<td align="left"><code>__init__.py</code></td>
+<td align="left">Marks package directory for project</td>
+</tr>
+
+<tr>
+<td align="left"><code>items.py</code></td>
+<td align="left">Project items definition file</td>
+</tr>
+
+<tr>
+<td align="left"><code>middlewares.py</code></td>
+<td align="left">Project middlewares to alter request/responses</td>
+</tr>
+
+<tr>
+<td align="left"><code>pipelines.py</code></td>
+<td align="left">Project pipelines file</td>
+</tr>
+
+<tr>
+<td align="left"><code>settings.py</code></td>
+<td align="left">Project settings file</td>
+</tr>
+</tbody>
+</table>
+
+<p><em>/whiskey_reviews/spiders</em></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">File</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><code>__init__.py</code></td>
+<td align="left">Marks package directory for spiders</td>
+</tr>
+</tbody>
+</table>
+
+<p>At the very start of this, we will not be messing with the <code>pipelines.py</code> file - but once we have a dedicated db set up we will likely tweak those settings as well. Until then, all results will be stored as JSON files.</p>
+
+<h2 id="what-s-the-data-i-m-grabbing">What&rsquo;s the data I&rsquo;m grabbing?</h2>
+
+<p>For this project, I am scraping whiskey product reviews from <a href="http://www.connosr.com/">this site</a>. In particular, for each review I am grabbing the following:</p>
+
+<ul>
+<li>Author</li>
+<li>Product</li>
+<li>Review</li>
+<li>Rating</li>
+<li>Likes given for the review</li>
+</ul>
+
+<h2 id="what-am-i-doing-with-it">What am I doing with it?</h2>
+
+<p>Aside from just learning how to do this whole thing, I am going to use the data to tune a learner against, and feed the results of that work into a recommender that is hosted on an app. This will not only give me insights on how to build these spiders, but also how to store their results and use the data for modeling - and then to develop the infrastructure to deliver the output in a meaningful way.</p>
+
+<h2 id="workflow">Workflow</h2>
+
+<p><strong>Step 1 - Create spider</strong></p>
+
+<p><a href="whiskey_reviews/whiskey_reviews/spiders/reviews_spider.py">My spider</a> is structurally similar to the tutorial version hosted on the <code>scrapy</code> doc site.</p>
+
+<pre><code>import scrapy
+
+
+class ReviewsSpider(scrapy.Spider):
+    name = &quot;reviews&quot;
+    start_urls = [
+        'https://www.connosr.com/whisky-reviews:1',
+    ]
+
+    def parse(self, response):
+        for review in response.css('div.details'):
+            yield {
+                'author': review.css('span.username::text').extract_first(),
+                'product': review.css('span.product::text').extract_first(),
+                'review': review.css('div.snippet p::text').extract_first(),
+                'rating': review.css('span.score-circle::text').extract_first(),
+                'likes': review.css('p.meta span.actions span.action.do-like i.value::text').extract_first(),
+            }
+
+        next_page = response.css('a.pagination-next::attr(href)').extract_first()
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)
+</code></pre>
+
+<p>There are three main components of this script. The first -</p>
+
+<pre><code>class ReviewsSpider(scrapy.Spider):
+    name = &quot;reviews&quot;
+    start_urls = [
+        'https://www.connosr.com/whisky-reviews:1',
+    ]
+</code></pre>
+
+<p>Defines the spider&rsquo;s name that we will build and the URL starting point - <code>https://www.connosr.com/whiskey-reviews:1</code> that the spider will begin at.</p>
+
+<p>The second component -</p>
+
+<pre><code>def parse(self, response):
+    for review in response.css('div.details'):
+        yield {
+            'author': review.css('span.username::text').extract_first(),
+            'product': review.css('span.product::text').extract_first(),
+            'review': review.css('div.snippet p::text').extract_first(),
+            'rating': review.css('span.score-circle::text').extract_first(),
+            'likes': review.css('p.meta span.actions span.action.do-like i.value::text').extract_first(),
+        }
+</code></pre>
+
+<p>Creates the <code>parse()</code> function that will be applied to each request. In this case, our scraper will find the <code>details</code> class of the <code>&lt;div&gt;</code> element - and from within that block, pulls our relevant information based on the their HTML paths.</p>
+
+<p>For instance, the author&rsquo;s name is stored in the <code>username</code> class of the <code>&lt;span&gt;</code> element beneath <code>div.details</code> - which is reflected in the selector path for the author variable that we are collecting.</p>
+
+<p>The final component -</p>
+
+<pre><code>next_page = response.css('a.pagination-next::attr(href)').extract_first()
+if next_page is not None:
+    next_page = response.urljoin(next_page)
+    yield scrapy.Request(next_page, callback=self.parse)
+</code></pre>
+
+<p>Defines the recursive parsing of pages. This allows us to run our spider across all pages of the site, and automatically ends on the final page.</p>
+
+<p><strong>Step 2 - Running Spider</strong></p>
+
+<p><code>cd</code> into the main directory for the project - which is wherever the <code>scrapy.cfg</code> file exists. Once there, run -</p>
+
+<pre><code>scrapy crawl reviews -o reviews.json
+</code></pre>
+
+<p><strong>Step 3 - Storing Results</strong></p>
+
+<p>The simplest way to store results from a spider is to either write them to JSON or JSON Lines format. The benefit of using JSON Lines is that you can run the scraper more than once without it crashing - and each record is a separate line so not everything is stored to memory.</p>
+
+<p>For the sake of industry standardization, I am sticking with JSON format for crawling. Using JSON Lines may work for standalone side projects, but for anything open source JSON will likely be used.</p>
+
+<p><strong>Step 4 - Productionalizing</strong></p>
+
+<p>Eventually, these will be fed into either a <code>postgresql</code> or <code>dynamoDB</code> space. I haven&rsquo;t set those up, but once I do I will link to the overview for that section of the stack here.</p>
+
+    </div>
+
+    <div class="disqus">
+        
+    </div>
+
+<div class="container has-text-centered top-pad">
+<hr>
+<a href="https://huckleberryinsights.github.io/blog/2017-04-04-scrapy-overview/#top"><i class="fa fa-arrow-up"></i></a>
+<hr>
+</div>
+
+<div class="section" id="footer">
+    <div class="container has-text-centered">
+        
+        <span class="footer-text"><a href="https://github.com/hivickylai/hugo-theme-introduction" target="_blank" rel="noopener">Introduction</a> theme for <a href="http://gohugo.io/" target="_blank" rel="noopener">Hugo</a>. Made with <i class="fa fa-heart"></i> and <i class="fa fa-coffee"></i>. <a href="https://vickylai.io" target="_blank" rel="noopener">Vicky Lai</a> 2018</span>
+        
+    </div>
+</div>
+
+</div>
+</div>
+
+
+<script>
+$('a[href^="https:\/\/huckleberryinsights.github.io\/blog\/2017-04-04-scrapy-overview\/#"]').click(function(e) {
+    e.preventDefault();
+    var target = this.hash;
+    $('html, body').animate({
+    scrollTop: $(target).offset().top
+    }, 500);
+    return false;
+})
+</script>
+
+</body>

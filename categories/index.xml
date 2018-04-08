@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Introduction</title>
+    <link>https://huckleberryinsights.github.io/categories/</link>
+    <description>Recent content in Categories on Introduction</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://huckleberryinsights.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R</title>
+      <link>https://huckleberryinsights.github.io/categories/r/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/categories/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Statistical Learning</title>
+      <link>https://huckleberryinsights.github.io/categories/statistical-learning/</link>
+      <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/categories/statistical-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorials</title>
+      <link>https://huckleberryinsights.github.io/categories/tutorials/</link>
+      <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/categories/tutorials/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

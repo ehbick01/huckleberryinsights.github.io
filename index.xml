@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Introduction</title>
+    <link>https://huckleberryinsights.github.io/</link>
+    <description>Recent content on Introduction</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Nov 2017 12:21:21 -0500</lastBuildDate>
+    
+	<atom:link href="https://huckleberryinsights.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Photography</title>
+      <link>https://huckleberryinsights.github.io/projects/photography/</link>
+      <pubDate>Mon, 13 Nov 2017 12:21:21 -0500</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/projects/photography/</guid>
+      <description>Sometimes I take pictures. This project is about the pictures I take. Sometimes, they are pictures of cats.</description>
+    </item>
+    
+    <item>
+      <title>Design</title>
+      <link>https://huckleberryinsights.github.io/projects/design/</link>
+      <pubDate>Mon, 13 Nov 2017 12:21:16 -0500</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/projects/design/</guid>
+      <description>This theme was designed by Vicky Lai. Go on, explore! 💪
+If you want to use it for your website, check out the section at the bottom of the main page. 👍</description>
+    </item>
+    
+    <item>
+      <title>Writing</title>
+      <link>https://huckleberryinsights.github.io/projects/writing/</link>
+      <pubDate>Mon, 13 Nov 2017 12:21:11 -0500</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/projects/writing/</guid>
+      <description>Aromatic aroma con panna, crema so coffee robust coffee barista, café au lait trifecta that strong blue mountain cortado aftertaste. Aroma extraction french press, skinny sweet, blue mountain cup roast barista, beans, extra cappuccino mug crema strong.
+To go viennese cream to go, flavour, so mocha as, carajillo iced et a siphon froth. Aged, eu, cup, brewed aroma kopi-luwak, coffee, id viennese french press brewed grounds acerbic froth. Decaffeinated acerbic, spoon beans seasonal, french press café au lait mazagran roast chicory, pumpkin spice galão as fair trade, dark irish cup ristretto half and half whipped shop.</description>
+    </item>
+    
+    <item>
+      <title>Using ANN To Predict Euthanasia in LMAS Intake</title>
+      <link>https://huckleberryinsights.github.io/projects/2017-11-29-predicting-euthanasia-ann/</link>
+      <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/projects/2017-11-29-predicting-euthanasia-ann/</guid>
+      <description>Overview and IntroductionDriven by the desire to do something as fun and interesting as this post by the folks at Decision Science, I decided to dust off some previous work done on Louisville Metro Animal Services Animal [“LMAS”] Intake and Outcome data (you can get it here). The problems are sort of the same at the core - while the linked work focuses on customer churn, this analysis will focus on what information tends to predict a given animal will be euthanized at LMAS using Artificial Neural Networks (“ANN”).</description>
+    </item>
+    
+    <item>
+      <title>Embedding d3 Visuals in Rmarkdown</title>
+      <link>https://huckleberryinsights.github.io/blog/2017-05-09-d3-with-rmd/</link>
+      <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/blog/2017-05-09-d3-with-rmd/</guid>
+      <description>BackgroundThe purpose of this tutorial is to walk through using d3.js within an Rmd document that is then rendered as an HTML page with a Hugo static site generator. That was probably the most technical sentence of this entire write-up, so let’s all breath a sigh of relief now that we’re through with it.
+This is a quick release, so I’m not going to go into much detail about the process to get the data and what it fully represents just yet - I’m saving that for a deeper post with a “tbd” release date at this point.</description>
+    </item>
+    
+    <item>
+      <title>Knitting to Output with Rmarkdown</title>
+      <link>https://huckleberryinsights.github.io/blog/2017-04-13-publishing-documents/</link>
+      <pubDate>Thu, 13 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/blog/2017-04-13-publishing-documents/</guid>
+      <description>Tutorial’s purposeManipulating data and building visuals is the bread and butter of the R language - but what can get lost in the fold is the ability to easily and quickly push analysis out for folks to see. Using knitr and rmarkdown makes that significantly easier, and exists at the press of a button. In this tutorial, we’re going to press those buttons.
+What are the packages?There are a ton of ways to get information from R out into the world - ranging from static Word or PDF documents all the way to interactive web applications.</description>
+    </item>
+    
+    <item>
+      <title>Into the Tidyverse</title>
+      <link>https://huckleberryinsights.github.io/blog/2017-04-11-into-the-tidyverse/</link>
+      <pubDate>Tue, 11 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/blog/2017-04-11-into-the-tidyverse/</guid>
+      <description>Today’s purposeTo walk through the tidyverse and become familiar with the functions that it provides the user and how it can make your life so much better to use.
+What the heck even is a tidyverse?tidyverse is a collection of R packages providing an all-inclusive resource for data science (well, almost). When you library(tidyverse) the following packages are loaded up as dependencies:
+PackageDescriptionggplot2Graphics-building package based on The Grammar of Graphics mapping aesthetics to data visuallytibbleWrapper on traditional dataframes allowing for better printing and viewing datatidyrPackage to easily and quickly get your data into a rectangular format (if not already in one)readrSuper fast package for reading in rectangular data (like csv, tsv, and fwf)purrrA set of tools for working with functions and vectors for functional programming techniquesdplyrQuickly and efficiently manipulate data with a Grammar of Manipulation (just made that up)Within each of these there are a handful of other dependencies - not all of which I am going to talk through.</description>
+    </item>
+    
+    <item>
+      <title>Scraping Whiskey Reviews Using Scrapy</title>
+      <link>https://huckleberryinsights.github.io/blog/2017-04-04-scrapy-overview/</link>
+      <pubDate>Tue, 04 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/blog/2017-04-04-scrapy-overview/</guid>
+      <description>Background This is a working document to help understand the first stage of this project - the data grab. It is also a helpful learning tool for myself, as this is the first real spider that I&amp;rsquo;ve created to pull data from a website.
+Setup The initial setup is quick, simply cd into the directory that you want to work in and run -
+scrapy startproject whiskey_reviews  Easy enough.</description>
+    </item>
+    
+    <item>
+      <title>Contact</title>
+      <link>https://huckleberryinsights.github.io/contact/</link>
+      <pubDate>Thu, 09 Mar 2017 13:23:28 +0800</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/contact/</guid>
+      <description>In the Contact section of Introduction, you may optionally display the current time in your preferred timezone.
+This lets visitors know what sort of response time to expect when they contact you. The timezone is easily set in the config file.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://huckleberryinsights.github.io/about/</link>
+      <pubDate>Thu, 09 Mar 2017 13:19:25 +0800</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/about/</guid>
+      <description> This is Introduction, a minimal scrolling website theme made for Hugo.
+Features  Responsive display on any size screen Smooth fade-in on load with CSS3 Smooth scrolling to page sections from navigation Light and Dark themes Projects section with any number of projects: configurable as a photo gallery, popup with details, or external links Blog section with optionally included Latest Post, on the main page or as a separate section Styled Markdown throughout with support for HighlightJS  </description>
+    </item>
+    
+    <item>
+      <title>Hello R Markdown</title>
+      <link>https://huckleberryinsights.github.io/blog/2015-07-23-r-rmarkdown/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/blog/2015-07-23-r-rmarkdown/</guid>
+      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+    </item>
+    
+  </channel>
+</rss>

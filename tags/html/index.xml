@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Html on Introduction</title>
+    <link>https://huckleberryinsights.github.io/tags/html/</link>
+    <description>Recent content in Html on Introduction</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 13 Apr 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://huckleberryinsights.github.io/tags/html/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Knitting to Output with Rmarkdown</title>
+      <link>https://huckleberryinsights.github.io/blog/2017-04-13-publishing-documents/</link>
+      <pubDate>Thu, 13 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/blog/2017-04-13-publishing-documents/</guid>
+      <description>Tutorial’s purposeManipulating data and building visuals is the bread and butter of the R language - but what can get lost in the fold is the ability to easily and quickly push analysis out for folks to see. Using knitr and rmarkdown makes that significantly easier, and exists at the press of a button. In this tutorial, we’re going to press those buttons.
+What are the packages?There are a ton of ways to get information from R out into the world - ranging from static Word or PDF documents all the way to interactive web applications.</description>
+    </item>
+    
+  </channel>
+</rss>
