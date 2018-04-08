@@ -1,0 +1,372 @@
+---
+title: "Embedding d3 Visuals in Rmarkdown"
+author: "Eric Bickel"
+date: 2017-05-09
+categories: ["Tutorials"]
+tags: ["rmarkdown", "d3.js", "visualization"]
+draft: false
+---
+## Background
+
+The purpose of this tutorial is to walk through using `d3.js` within an `Rmd` document that is then rendered as an `HTML` page with a `Hugo` static site generator. That was probably the most technical sentence of this entire write-up, so let's all breath a sigh of relief now that we're through with it.
+
+This is a quick release, so I'm not going to go into much detail about the process to get the data and what it fully represents just yet - I'm saving that for a deeper post with a "tbd" release date at this point. Just trust that the data is legit for now, and reach out if you want a pre-release introduction to it all.
+
+## Setup
+
+There are a couple of things that I am going to assume:
+
+1. You have a [Hugo site setup](https://tclavelle.github.io/blog/blogdown_github/) already
+2. You're at least comfortable with [`d3`](https://d3js.org/) and [`knitr` code chunks](http://rmarkdown.rstudio.com/authoring_knitr_engines.html)
+3. You know [the basics of Rmarkdown](http://rmarkdown.rstudio.com/)
+
+If you're cool with those three things, then you should be able to follow along and will probably already know more than I did when I first learned how to do this. If you aren't too familiar with them, the keep reading! This is written from the context of having _just_ learned how to do it myself - and hopefully it will be somewhat interesting still!
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+
+## Load packages
+
+# Data loading
+library(jsonlite)
+
+# Data manipulation
+library(tidyverse)
+
+# Data visualization
+library(ggthemes)
+library(extrafont)
+library(scales)
+
+```
+
+```{r, pull-data, include = FALSE}
+
+## Read in json file
+network.data <- jsonlite::fromJSON(txt = '../../../huckleberry_source/data/user_networks.json', 
+                         simplifyDataFrame = TRUE)
+
+# Remove '@' from reviewer names 
+network.data$author <- gsub('@', '', network.data$author)
+
+# Replace character(0) comment-author elements
+network.data <- network.data %>% 
+  mutate(comment_authors = map2(author, `comment-authors`, function(a, ca) { ifelse(nrow(data.frame(ca)) == 0, a, return(ca) )}))
+
+## Replicate author names based on the number of commenters
+
+# Find the number of commenters
+network.data <- network.data %>% 
+  mutate(n_comment_authors = map_dbl(`comment_authors`, function(i) length(i)))
+
+# Remove reviews with less than 5 comments
+network.data <- network.data[network.data$n_comment_authors > 5, ]
+
+# Number of reviews by individual
+n_reviews <- data.frame(table(network.data$author))
+
+# Replicate review data based on the number of commenters
+network.data_expanded <- data.frame('review_author' = rep(network.data$author, network.data$n_comment_authors), 
+                           'comment_author' = unlist(network.data$comment_authors),
+                           'product' = rep(network.data$product, network.data$n_comment_authors),
+                           'brand' = rep(network.data$brand, network.data$n_comment_authors),
+                           'type' = rep(network.data$type, network.data$n_comment_authors))
+
+# Remove '@' from commenter names
+network.data_expanded$comment_author <- gsub('@', '', network.data_expanded$comment_author)
+
+# Number of comments
+n_comments <- data.frame(table(network.data_expanded$comment_author))
+names(n_comments) <- c('Var1', 'comments')
+
+# Build column of review and comment authors
+authors_total <- rbind(data.frame('auth' = network.data_expanded$review_author),
+                       data.frame('auth' = network.data_expanded$comment_author))
+
+authors_total <- data.frame('auth' = unique(gsub('@', '', authors_total$auth)))
+
+# Build node data
+nodes <- data.frame('id' = paste0('c', seq(from = 1, to = nrow(authors_total))),
+                    'name' = authors_total,
+                    'n_reviews' = left_join(left_join(authors_total, 
+                                            n_reviews,
+                                            by = c('auth' = 'Var1')),
+                                            n_comments,
+                                            by = c('auth' = 'Var1'))) %>% 
+  select(-n_reviews.auth) %>%
+  mutate(t_interactions = ifelse(is.na(n_reviews.Freq), 0, n_reviews.Freq) + ifelse(is.na(n_reviews.comments), 0, n_reviews.comments)) %>% 
+  select(-n_reviews.Freq, -n_reviews.comments)
+
+# Build edge data
+edges <- data.frame('from' = left_join(network.data_expanded,
+                                       nodes,
+                                       by = c('review_author' = 'auth')),
+                    'to' = left_join(network.data_expanded,
+                                     nodes,
+                                     by = c('comment_author' = 'auth'))) %>% 
+  select(from.id, to.id) %>% 
+  distinct(from.id, to.id)
+
+## Find most active users and networks
+
+# Remove reviews with less than 5 comments
+network.data_active <- network.data[network.data$n_comment_authors > 20, ]
+
+# Number of reviews by individual
+n_reviews_active <- data.frame(table(network.data_active$author))
+
+# Replicate review data based on the number of commenters
+network.data_active_expanded <- data.frame('review_author' = rep(network.data_active$author, network.data_active$n_comment_authors), 
+                           'comment_author' = unlist(network.data_active$comment_authors),
+                           'product' = rep(network.data_active$product, network.data_active$n_comment_authors),
+                           'brand' = rep(network.data_active$brand, network.data_active$n_comment_authors),
+                           'type' = rep(network.data_active$type, network.data_active$n_comment_authors))
+
+# Remove '@' from commenter names
+network.data_active_expanded$comment_author <- gsub('@', '', network.data_active_expanded$comment_author)
+
+# Number of comments
+n_comments_active <- data.frame(table(network.data_active_expanded$comment_author))
+names(n_comments_active) <- c('Var1', 'comments')
+
+# Build column of review and comment authors
+authors_total_expanded <- rbind(data.frame('auth' = network.data_expanded$review_author),
+                       data.frame('auth' = network.data_expanded$comment_author))
+
+authors_total_expanded <- data.frame('auth' = unique(gsub('@', '', authors_total_expanded$auth)))
+
+authors_total_active <- data.frame('auth' = authors_total_expanded[authors_total_expanded$auth %in% n_reviews_active$Var1 | 
+                                                            authors_total_expanded$auth %in% n_comments_active$Var1, ])
+
+# Build node data
+nodes_expanded <- data.frame('id' = paste0('c', seq(from = 1, to = nrow(authors_total_active))),
+                    'name' = authors_total_active,
+                    'n_reviews' = left_join(left_join(authors_total_active, 
+                                            n_reviews,
+                                            by = c('auth' = 'Var1')),
+                                            n_comments,
+                                            by = c('auth' = 'Var1'))) %>% 
+  select(-n_reviews.auth) %>%
+  mutate(t_interactions = ifelse(is.na(n_reviews.Freq), 0, n_reviews.Freq) + ifelse(is.na(n_reviews.comments), 0, n_reviews.comments)) %>% 
+  select(-n_reviews.Freq, -n_reviews.comments)
+
+# Build edge data
+edges_expanded <- data.frame('from' = left_join(network.data_expanded,
+                                       nodes_expanded,
+                                       by = c('review_author' = 'auth')),
+                    'to' = left_join(network.data_expanded,
+                                     nodes_expanded,
+                                     by = c('comment_author' = 'auth'))) %>% 
+  select(from.id, to.id) %>% 
+  distinct(from.id, to.id)
+
+# Remove na rows
+edges_expanded <- na.omit(edges_expanded)
+
+# Add source and target author names
+edges_expanded <- edges_expanded %>% 
+  mutate('source' = left_join(edges_expanded,
+                                 nodes_expanded,
+                                 by = c('from.id' = 'id'))$auth,
+         'target' = left_join(edges_expanded,
+                                 nodes_expanded,
+                                 by = c('to.id' = 'id'))$auth)
+
+# write_csv(edges_expanded, 'links_active.csv')
+
+```
+
+## Staging the data
+
+As is *always* the case when it comes to data analysis, the most important piece of the puzzle here is the data. In particular, how we stage the data for the d3 visualization is _extremely_ important. Just about everything done in R is done using data in a nice and tidy rectangular format - meaning your rows are observations and your columns are variables. This makes it easy to do math-y things, but just about everything else in the world likes data to be a bit more nested. This is the case for d3 - which works based with `JSON` files when building out visualizations. 
+
+For instance, the data we are working with is a dataframe that is 4 columns wide by 900 rows long, and looks pretty clean:
+
+![](/img/data-rectangle.PNG)
+
+If we were building some kind of weird statistical model off of this data, we would be set. But we're not, so we aren't - and instead we need to get the data setup in the preferred `JSON` format before we can build our d3 object. To take care of that, we can use `jsonlite::toJSON` to handle the conversion, and create a `<script>...</script>` HTML element at the same time so that we can pass the data object to d3.
+
+For example, the following chunk will take our rectangular dataframe `edges_expanded` and transform it into a `JSON` file that is assigned to the variable name `links`. It is *crucial* that when doing this, you pass through `results="asis"` and that you do not set `include = FALSE`. Otherwise, the data will not be passed to the d3 element, and your whole day will be ruined.
+
+```{r vectors-to-json, results="asis"}
+
+# Build <script>...</script> element to pass data to d3 as 'links' variable
+cat(
+  paste(
+  '<script>
+    var links = ',toJSON(edges_expanded),';
+  </script>'
+  , sep="")
+)
+
+```
+
+The result of this is not quite as pretty, but you can see that the `paste` function is essentially building out a `<script>` HTML element that creates the `links` variable for us. Nifty trick! At this point, our data is setup and ready to go for a d3 visualization. 
+
+![](/img/data-json.PNG)
+
+
+## Building the visual
+
+At this point, we have our data staged in the right format and we've built our `<script>` element to pass the `links` variable through. All that is left now is to build out our d3 element within our `Rmarkdown` document, and then we can let `Hugo` do the rest for us!
+
+Building the d3 element is deceptively easy - especially if you already have the pieces put together separately. In fact, by keeping the data and visualization all in one place (in this case, building everything within RStudio), embedding a d3 element into an `Rmarkdown` file is (in my opinion, at least) way easier than trying to develop it into a raw HTML object.
+
+To do so, you simply set a new `div` element - in this case, we are giving it the ID "plot" - and then append your SVG element to that `div`. 
+
+```
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+var width = 950,
+    height = 700;
+
+var svg = d3.select("#plot").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+```
+
+That will give us the basic structure of our SVG element that we will then layer our data onto. I'm not going to get into how to set the force layout we are using here, but to build out our nodes (the user-defined circles) we can use the following:
+
+```
+// Create nodes for each unique source and target.
+links.forEach(function(link) {
+  link.source = nodeByName(link.source);
+  link.target = nodeByName(link.target);
+});
+
+```
+
+The chunk takes our pre-defined variable `links` and assigns two new objects: `link.source` and `link.target`. These are used throughout the d3 layout to build the source and target nodes - essentially telling the object how to (uh, literally) connect the dots.
+
+From there, we can build `line` elements between the link objects, and also layer over some of the fancy mouseover functionality to show username or connected nodes. As mentioned, I'm not going to get into those details - but the passing of data from a code chunk to a d3 element in Rmarkdown is extremely useful.
+
+## Pushing the blog post
+
+If you've made it this far, then you're pretty much done. Simply run the function `blogdown::build_site()` and Hugo handles the rest. If you are publishing your `/public` content to your host server then you should see your post update and render your d3 visualization at this point. Or, if you are using the two-repo method w/ github pages - once you push the changes in `/public` to your github.io repo you should be good to go!
+
+### Voila!
+
+<style>
+
+.node {
+  stroke: #445359;
+}
+
+.circle text {
+  font: 10px sans-serif;
+  fill: #008abc;
+}
+
+circle {
+  fill: #7c888c;
+  stroke: #445359;
+  stroke-width: 1.5px;
+}
+
+</style>
+
+<div id="plot"></div>
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+var width = 575,
+    height = 500;
+
+var svg = d3.select("#plot").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var tooltip = d3.select("#plot")
+  .append("div")
+  .attr("class", "my-tooltip") //add the tooltip class
+  .style("position", "absolute")
+  .style("z-index", "10")
+  .style("visibility", "hidden");
+
+var force = d3.layout.force()
+    .size([width, height]);
+
+var nodesByName = {};
+
+// Create nodes for each unique source and target.
+links.forEach(function(link) {
+  link.source = nodeByName(link.source);
+  link.target = nodeByName(link.target);
+});
+
+// Extract the array of nodes from the map by name.
+var nodes = d3.values(nodesByName);
+
+// Create the link lines.
+var link = svg.selectAll(".link")
+    .data(links)
+  .enter().append("line")
+    .attr("class", "link");
+
+// Create circles for each user
+var circle = svg.append("g").selectAll("circle")
+  .data(nodes)
+.enter().append("circle")
+  .attr("r", 6)
+  .call(force.drag)
+  .on("mousemove", function() {
+    return tooltip.style("top", (d3.event.pageY - 40) + "px").style("left", (d3.event.pageX - 130) + "px");
+  })
+  .on("mouseout", function() {
+    return tooltip.style("visibility", "hidden");
+  })
+  .on('mouseover', function(d) {
+    console.log(d.name);
+    tooltip.style("visibility", "visible")
+      .text(d.name)
+    link.style('stroke-width', function(l) {
+      if (d === l.source || d === l.target)
+          return 2;
+      else
+          return 0;
+  });
+    link.style('stroke', function(l) {
+      if (d === l.source || d === l.target)
+          return "#008abc";
+      else
+          return "#f0f2f3";
+  });
+});
+
+// Start the force layout.
+force
+        .nodes(nodes)
+        .links(links)
+        .linkDistance(400)
+        .charge(1)
+        // .gravity(1)
+        .on("tick", tick)
+        .start();
+
+// Define tick function to move the nodes around
+function tick() {
+  link.attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+
+  circle.attr("cx", function(d) { return d.x = Math.max(15, Math.min(width - 15, d.x)); })
+      .attr("cy", function(d) { return d.y= Math.max(15, Math.min(height - 15, d.y)); });
+    }
+
+function nodeByName(name) {
+  return nodesByName[name] || (nodesByName[name] = {name: name});
+}
+
+function transform(d) {
+  return "translate(" + d.x + "," + d.y + ")";
+}
+
+</script>
+

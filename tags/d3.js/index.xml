@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>D3.js on Introduction</title>
+    <link>https://huckleberryinsights.github.io/tags/d3.js/</link>
+    <description>Recent content in D3.js on Introduction</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 09 May 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://huckleberryinsights.github.io/tags/d3.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Embedding d3 Visuals in Rmarkdown</title>
+      <link>https://huckleberryinsights.github.io/blog/2017-05-09-d3-with-rmd/</link>
+      <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/blog/2017-05-09-d3-with-rmd/</guid>
+      <description>BackgroundThe purpose of this tutorial is to walk through using d3.js within an Rmd document that is then rendered as an HTML page with a Hugo static site generator. That was probably the most technical sentence of this entire write-up, so let’s all breath a sigh of relief now that we’re through with it.
+This is a quick release, so I’m not going to go into much detail about the process to get the data and what it fully represents just yet - I’m saving that for a deeper post with a “tbd” release date at this point.</description>
+    </item>
+    
+  </channel>
+</rss>

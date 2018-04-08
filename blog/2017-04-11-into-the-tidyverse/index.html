@@ -1,0 +1,5270 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Solving problems one dataset at a time">
+
+<base href="https://huckleberryinsights.github.io/">
+<title>
+
+
+     Into the Tidyverse 
+
+</title>
+<link rel="canonical" href="https://huckleberryinsights.github.io/blog/2017-04-11-into-the-tidyverse/">
+
+
+
+
+
+
+<script type="text/javascript" src="https://huckleberryinsights.github.io/js/jquery-3.3.1.min.js"></script>
+
+
+<link rel="stylesheet" href="https://huckleberryinsights.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://huckleberryinsights.github.io/css/nunito_sans.css">
+
+
+    <link rel="stylesheet" href="css/light-style.css">
+
+
+
+
+
+
+<link rel="shortcut icon" href="img/fav.ico">
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+<div class="section" id="top">
+
+    <div class="container hero fade-in one">
+    <h1 class="bold-title is-1">Blog</h1>
+    </div>
+
+
+<div class="section fade-in two">
+
+    <div class="container">
+    <hr>
+<nav class="nav nav-center">
+    <span id="nav-toggle" class="nav-toggle"  onclick="document.getElementById('nav-menu').classList.toggle('is-active');">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <div id="nav-menu" class="nav-left nav-menu">
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/">Main</a>
+      </span>
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/#about">About</a>
+      </span>
+      
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/blog">Back to blog</a>
+      </span>
+      
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/#contact">Contact</a>
+      </span>
+    
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/index.xml"><i class="fa fa-rss"></i></a>
+      </span>
+    
+    </div>
+</nav>
+<hr>
+
+    </div>
+
+    <div class="container fade-in two">
+        <h2 class="title is-1 top-pad strong-post-title"><a href="https://huckleberryinsights.github.io/blog/2017-04-11-into-the-tidyverse/">Into the Tidyverse</a></h2>
+            <div class="post-data">
+                Apr 00, 11048 |
+                102 minutes read
+            </div>
+
+            
+                <div class="blog-share">
+                Share this:
+                
+                <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Read%20Into%20the%20Tidyverse%20https%3a%2f%2fhuckleberryinsights.github.io%2fblog%2f2017-04-11-into-the-tidyverse%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+                </a>
+                
+                 
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhuckleberryinsights.github.io%2fblog%2f2017-04-11-into-the-tidyverse%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+                </a>
+                
+                
+                
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhuckleberryinsights.github.io%2fblog%2f2017-04-11-into-the-tidyverse%2f"
+                onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-google-plus"></i>
+                <span class="hidden">Google+</span>
+                </a>
+                
+                </div>
+            
+
+    </div>
+
+    <div class="container markdown fade-in two top-pad">
+        <div id="todays-purpose" class="section level3">
+<h3>Today’s purpose</h3>
+<p>To walk through the <code>tidyverse</code> and become familiar with the functions that it provides the user and how it can make your life <em>so much better</em> to use.</p>
+</div>
+<div id="what-the-heck-even-is-a-tidyverse" class="section level3">
+<h3>What the heck even is a <code>tidyverse</code>?</h3>
+<p><a href="http://tidyverse.org/">tidyverse</a> is a collection of R packages providing an all-inclusive resource for data science (well, <em>almost</em>). When you <code>library(tidyverse)</code> the following packages are loaded up as dependencies:</p>
+<table>
+<colgroup>
+<col width="23%" />
+<col width="76%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Package</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggplot2</code></td>
+<td>Graphics-building package based on The Grammar of Graphics mapping aesthetics to data visually</td>
+</tr>
+<tr class="even">
+<td><code>tibble</code></td>
+<td>Wrapper on traditional dataframes allowing for better printing and viewing data</td>
+</tr>
+<tr class="odd">
+<td><code>tidyr</code></td>
+<td>Package to easily and quickly get your data into a rectangular format (if not already in one)</td>
+</tr>
+<tr class="even">
+<td><code>readr</code></td>
+<td>Super fast package for reading in rectangular data (like csv, tsv, and fwf)</td>
+</tr>
+<tr class="odd">
+<td><code>purrr</code></td>
+<td>A set of tools for working with functions and vectors for functional programming techniques</td>
+</tr>
+<tr class="even">
+<td><code>dplyr</code></td>
+<td>Quickly and efficiently manipulate data with a Grammar of Manipulation (just made that up)</td>
+</tr>
+</tbody>
+</table>
+<p>Within each of these there are a handful of other dependencies - not all of which I am going to talk through. However, one package that <strong>is</strong> important to know about is <code>magrittr</code>. It is a dependency loaded with <code>dplyr</code> and allows for the use of pipes (the <code>%&gt;%</code> character) - which is an extremely strong character and provides the user the ability to “pipe through” elements into functions for manipulation/modeling/visualizing. That probably makes no sense right now, but I promise it will when we walk through an example or two.</p>
+</div>
+<div id="lets-jump-into-some-examples" class="section level3">
+<h3>Let’s jump into some examples</h3>
+<p>Probably the best way to learn a thing in R is to do a thing in R - so let’s do that. I made a promise years ago not to ever use <code>iris</code> or <code>mtcars</code> in my examples, so instead we are going to mess around with the <code>babynames</code> dataset (another gem from Hadley Wickham) for this first example.</p>
+<p><strong>Let’s load in our packages and set a theme for plotting</strong></p>
+<p>Aside from our <code>tidyverse</code> package, we are also going to load in the <code>babynames</code> package that houses baby names for the US from 1880 to 2014 for all names used by at least five children of either sex for every year. It also has cohort life tables, which is pretty interesting to mess around with as well. The data is provided by the Social Security Administration - so you <em>know</em> it’s legit.</p>
+<p>We’re also loading in <code>extrafont</code> to access fonts that exist on my local machine and <code>ggthemes</code> to church up plots in ggplot a bit. I’ve added descriptors next to each line of <code>ggthemes::theme_set</code> to help understand what each does.</p>
+<pre class="r"><code># Load packages
+library(tidyverse)
+library(babynames)
+library(extrafont)
+library(ggthemes)
+
+# Set plot theme
+theme_set(
+  theme_bw(base_family = &#39;Segoe UI&#39;, base_size = 12) +
+                                      # Set initial theme (&#39;theme_bw&#39;) and set base text family
+                                      # and base text size
+    theme(
+      plot.title = element_text(face = &#39;bold&#39;, hjust = 0),
+                                      # Set the font-face and horizontal adjustment of the plot title  
+
+      text = element_text(colour = &#39;#4e5c65&#39;),
+                                      # Set the font text color for the whole plot
+
+      panel.background = element_rect(&#39;white&#39;),
+                                      # Set the background of the plotting panel to white
+
+      plot.background = element_rect(&#39;white&#39;),
+                                      # Set the background of the plot to white
+
+      panel.border = element_rect(colour = &#39;white&#39;),
+                                      # Sets the panel border (border around the actual plotting area)
+                                      # to white
+
+      panel.grid.major.x = element_blank(),
+                                      # Removes major X-axis grid lines
+
+      panel.grid.major.y = element_blank(),
+                                      # Remote major Y-axis grid lines
+
+      panel.grid.minor.y = element_blank(),
+                                      # Removes minor Y-axis grid lines
+
+      legend.background = element_rect(&#39;white&#39;),
+                                      # Sets the background of the legend to white
+
+      legend.title = element_blank(),
+                                      # Removes legend title
+
+      legend.position = &#39;right&#39;,      # Aligns the legend to the right of the plot
+
+      legend.direction = &#39;vertical&#39;,  # Aligns the legend vertically
+
+      legend.key = element_blank(),   # Removes background of legend keys
+
+      strip.background = element_rect(&#39;#f0f2f3&#39;, colour = &#39;white&#39;),
+                                      # Only relevant for facet plots - this sets the background
+                                      # of the title of faceted plots
+
+      strip.text = element_text(face = &#39;bold&#39;, size = 10),
+                                      # Only relevant for facet plots - this sets the font-face
+                                      # and size of the title of faceted plots
+
+      axis.text = element_text(face = &#39;bold&#39;, size = 9),
+                                      # Set font-face and size of axis text
+
+      axis.title = element_blank(),   # Remove axis titles (be careful with removing titles
+                                      # - YOU NEED TO BE CLEAR WHAT THE PLOT IS SHOWING
+                                      # IN THE SUBTITLE IF YOU DO THIS!!!!!)
+
+      axis.ticks = element_blank()    # Remove axis tick marks
+    )
+)</code></pre>
+<p><strong>Peek into some of the data</strong></p>
+<p>Honing in first on the lifetales, we have a number of options in R to get a feel for what the data looks like. In base R, we can use <code>str</code> to identify the class of each variable (assuming your data is rectangular) as well as the first few rows of each.</p>
+<p>However, in <code>tidyverse</code> we have <code>tibble::glimpse</code> - which provides a cleaner view of the underlying data, and will always render the data even if it is stored remotely in a database.</p>
+<pre class="r"><code># Load in the life tables from SSA (`babynames` package) and glimpse
+life_tables &lt;- babynames::lifetables
+tibble::glimpse(life_tables)</code></pre>
+<pre><code>## Observations: 2,880
+## Variables: 9
+## $ x    &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,...
+## $ qx   &lt;dbl&gt; 0.14596, 0.03282, 0.01634, 0.01052, 0.00875, 0.00628, 0.0...
+## $ lx   &lt;dbl&gt; 100000, 85404, 82601, 81251, 80397, 79693, 79193, 78827, ...
+## $ dx   &lt;dbl&gt; 14596, 2803, 1350, 855, 703, 501, 366, 257, 201, 159, 165...
+## $ Lx   &lt;dbl&gt; 90026, 84003, 81926, 80824, 80045, 79443, 79010, 78698, 7...
+## $ Tx   &lt;dbl&gt; 5151511, 5061484, 4977482, 4895556, 4814732, 4734687, 465...
+## $ ex   &lt;dbl&gt; 51.52, 59.26, 60.26, 60.25, 59.89, 59.41, 58.78, 58.05, 5...
+## $ sex  &lt;fct&gt; M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, ...
+## $ year &lt;dbl&gt; 1900, 1900, 1900, 1900, 1900, 1900, 1900, 1900, 1900, 190...</code></pre>
+<pre class="r"><code>str(life_tables)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    2880 obs. of  9 variables:
+##  $ x   : num  0 1 2 3 4 5 6 7 8 9 ...
+##  $ qx  : num  0.14596 0.03282 0.01634 0.01052 0.00875 ...
+##  $ lx  : num  100000 85404 82601 81251 80397 ...
+##  $ dx  : num  14596 2803 1350 855 703 ...
+##  $ Lx  : num  90026 84003 81926 80824 80045 ...
+##  $ Tx  : num  5151511 5061484 4977482 4895556 4814732 ...
+##  $ ex  : num  51.5 59.3 60.3 60.2 59.9 ...
+##  $ sex : Factor w/ 2 levels &quot;M&quot;,&quot;F&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ year: num  1900 1900 1900 1900 1900 1900 1900 1900 1900 1900 ...</code></pre>
+<p><strong>Do some quick visual exploration</strong></p>
+<p>This is where it starts to get fun (assuming you aren’t already having fun) - exploring the data visually. We know from our source what the definition of each variable is. For instance, we know that variable <code>x</code> is age in years; we know that <code>lx</code> is the number of individuals alive at year <code>x</code>; we know the number of survivors by <code>sex</code>; and we know the number of survivors across each <code>year</code>. With this data, we can calculate a weighted average age for each sex for each year using a handful of <code>dplyr</code> functions. We can then pass this data through to be visualized using <code>ggplot</code> - quickly visualizing some trends!</p>
+<pre class="r"><code># Manipulate our data
+life_tables %&gt;%                       # The pipe operator will &#39;pipe&#39; our `life_tables` dataframe
+                                      # as the first argument to the following function
+
+  dplyr::select(x, lx, sex, year) %&gt;% # dplyr::select will select the relevant variables (columns)
+                                      # that we need and create a new dataframe
+
+  dplyr::group_by(year, sex) %&gt;%      # dplyr::group_by will group our observations (rows) into the
+                                      # relevant categories (year and sex) to run calculations on
+
+  dplyr::summarise_each(funs(weighted.mean(., lx)), -lx) %&gt;%
+                                      # dplyr::summarise_each summarises each of the
+                                      # ungrouped columns (in this case, age and number of people)
+                                      # based on the function defined in the funs() argument
+                                      # - in this case, it&#39;s a weighted mean
+
+  # Visualize the results
+  ggplot(aes(year, x, group = sex)) + # You can then use the piping operator to feed the final product
+                                      # (a dataframe of weighted average ages by year and gender) directly
+                                      # into the data argument of your ggplot function
+
+    geom_linerange(aes(ymin = 0, ymax = x, colour = sex), position = position_dodge(5)) +
+                                      # This builds a line plot from 0 to the age of each gender by year
+                                      # and colors them based on their classification (M or F)
+
+    geom_point(aes(colour = sex), position = position_dodge(5)) +
+                                      # This builds a dot plot for the age of each gender by year
+                                      # also colored by gender
+
+    scale_colour_manual(values = c(&#39;blue&#39;, &#39;pink&#39;)) +
+                                      # This manual defines the coloration of our classifiers
+                                      # - (M == &#39;blue, F == &#39;pink&#39;)
+
+    labs(title = &#39;Average Age by Cohort&#39;,
+         subtitle = &#39;Ages based on the weighted average number of individuals for each age among each cohort.&#39;,
+         caption = &#39;Data provided by the Social Security Administration&#39;)</code></pre>
+<pre><code>## `summarise_each()` is deprecated.
+## Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead.
+## To map `funs` over a selection of variables, use `summarise_at()`</code></pre>
+<pre><code>## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.4</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="https://huckleberryinsights.github.io/blog/2017-04-11-into-the-tidyverse_files/figure-html/manipulate-and-visualize-data-1.png" width="672" /></p>
+<p><strong>Build some models</strong></p>
+<p>Another use-case for the <code>tidyverse</code> family would be applying a function across a dataframe. In the old days, this would be done either through the <code>apply</code> family or via a good ol’ <code>for</code> loop. However, with <code>purrr</code> comes the handy <code>map</code> function - which will allow you to <em>map</em> a function across your data.</p>
+<p>For example, let’s say we want to be crazy and model the propensity of a given name over time. In other words, we are going to model the change in the number of individual names as a function of time. To set this up, we are going to dive back into the <code>babynames</code> package, and export out the dataframe of names.</p>
+<pre class="r"><code># First, let&#39;s nest all of the data for each name into their own column
+by.name &lt;- babynames %&gt;%              # Feed the babynames data into the next function
+
+  group_by(name) %&gt;%                  # Group the dataframe by name
+
+  nest()                              # Nest the grouped data into a list
+
+# We can see that each element within `data` represents the entire data for each group (or in this case, each name)
+glimpse(by.name$data[[1]])</code></pre>
+<pre><code>## Observations: 266
+## Variables: 4
+## $ year &lt;dbl&gt; 1880, 1880, 1881, 1881, 1882, 1882, 1883, 1883, 1884, 188...
+## $ sex  &lt;chr&gt; &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M...
+## $ n    &lt;int&gt; 7065, 27, 6919, 29, 8148, 30, 8012, 32, 9217, 36, 9128, 3...
+## $ prop &lt;dbl&gt; 0.0723843285, 0.0002280425, 0.0699914015, 0.0002678192, 0...</code></pre>
+<pre class="r"><code># Now that the data is in this format, we can fit a linear model to each name
+by.name.model &lt;- by.name %&gt;%          # Feed the by.name data into the next function
+
+  mutate(model = purrr::map(data, ~ lm(n ~ year, data = .))
+                                      # Mutate the by.name dataframe to build a new column titled &quot;model&quot;
+
+)
+
+# Take a glimpse - we now see a new column &#39;model&#39; housing all of the modeling results
+glimpse(by.name.model)</code></pre>
+<pre><code>## Observations: 95,025
+## Variables: 3
+## $ name  &lt;chr&gt; &quot;Mary&quot;, &quot;Anna&quot;, &quot;Emma&quot;, &quot;Elizabeth&quot;, &quot;Minnie&quot;, &quot;Margaret...
+## $ data  &lt;list&gt; [&lt;# A tibble: 266 x 4,     year sex       n     prop,  ...
+## $ model &lt;list&gt; [&lt;166611.95308, -77.63016, -13602.2498, -20640.2498, -1...</code></pre>
+<pre class="r"><code># We can also now extract model coefficients using `broom::tidy`
+by.name.model %&gt;%                     # Feed by.name.model dataframe into the next function
+
+  unnest(model %&gt;% purrr::map(broom::tidy))</code></pre>
+<pre><code>## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable
+
+## Warning in summary.lm(x): essentially perfect fit: summary may be
+## unreliable</code></pre>
+<pre><code>## # A tibble: 169,566 x 6
+##    name      term           estimate std.error statistic  p.value
+##    &lt;chr&gt;     &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 Mary      (Intercept)  166612.     72454.      2.30   2.23e- 2
+##  2 Mary      year            -77.6       37.2    -2.09   3.80e- 2
+##  3 Anna      (Intercept)    3917.     11896.      0.329  7.42e- 1
+##  4 Anna      year             -0.328      6.11   -0.0538 9.57e- 1
+##  5 Emma      (Intercept)  -73874.     13659.     -5.41   1.50e- 7
+##  6 Emma      year             39.2        7.02    5.59   5.97e- 8
+##  7 Elizabeth (Intercept)  -90987.     20654.     -4.41   1.53e- 5
+##  8 Elizabeth year             49.8       10.6     4.70   4.25e- 6
+##  9 Minnie    (Intercept)   24095.      3388.      7.11   1.84e-11
+## 10 Minnie    year            -12.0        1.75   -6.89   6.69e-11
+## # ... with 169,556 more rows</code></pre>
+<pre class="r"><code>                                      # Unnest the contents of the &quot;model&quot; column and
+                                      # output the rownames (coefficients in this case)</code></pre>
+</div>
+<div id="what-else-can-tidyverse-do" class="section level3">
+<h3>What else can <code>tidyverse</code> do?</h3>
+<p>There are an insane number of functions embedded into <code>tidyverse</code> - far more than a single tutorial can cover. We hit on some of the main packages today with <code>dplyr</code> for quick data manipulation and <code>ggplot</code> for good-looking visualization, but packages like <code>purrr</code> and <code>tidyr</code> can help to take manipulation even further prior to visualization.</p>
+<p>To learn more about how you can use <code>tidyverse</code> and its dependencies, check out <a href="http://tidyverse.org/">the official page</a> or read Hadley Wickham’s <a href="http://r4ds.had.co.nz/">R for Data Science</a>. Go make cool stuff!</p>
+</div>
+
+    </div>
+
+    <div class="disqus">
+        
+    </div>
+
+<div class="container has-text-centered top-pad">
+<hr>
+<a href="https://huckleberryinsights.github.io/blog/2017-04-11-into-the-tidyverse/#top"><i class="fa fa-arrow-up"></i></a>
+<hr>
+</div>
+
+<div class="section" id="footer">
+    <div class="container has-text-centered">
+        
+        <span class="footer-text"><a href="https://github.com/hivickylai/hugo-theme-introduction" target="_blank" rel="noopener">Introduction</a> theme for <a href="http://gohugo.io/" target="_blank" rel="noopener">Hugo</a>. Made with <i class="fa fa-heart"></i> and <i class="fa fa-coffee"></i>. <a href="https://vickylai.io" target="_blank" rel="noopener">Vicky Lai</a> 2018</span>
+        
+    </div>
+</div>
+
+</div>
+</div>
+
+
+<script>
+$('a[href^="https:\/\/huckleberryinsights.github.io\/blog\/2017-04-11-into-the-tidyverse\/#"]').click(function(e) {
+    e.preventDefault();
+    var target = this.hash;
+    $('html, body').animate({
+    scrollTop: $(target).offset().top
+    }, 500);
+    return false;
+})
+</script>
+
+</body>

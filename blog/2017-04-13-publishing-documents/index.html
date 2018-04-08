@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Solving problems one dataset at a time">
+
+<base href="https://huckleberryinsights.github.io/">
+<title>
+
+
+     Knitting to Output with Rmarkdown 
+
+</title>
+<link rel="canonical" href="https://huckleberryinsights.github.io/blog/2017-04-13-publishing-documents/">
+
+
+
+
+
+
+<script type="text/javascript" src="https://huckleberryinsights.github.io/js/jquery-3.3.1.min.js"></script>
+
+
+<link rel="stylesheet" href="https://huckleberryinsights.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://huckleberryinsights.github.io/css/nunito_sans.css">
+
+
+    <link rel="stylesheet" href="css/light-style.css">
+
+
+
+
+
+
+<link rel="shortcut icon" href="img/fav.ico">
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+<div class="section" id="top">
+
+    <div class="container hero fade-in one">
+    <h1 class="bold-title is-1">Blog</h1>
+    </div>
+
+
+<div class="section fade-in two">
+
+    <div class="container">
+    <hr>
+<nav class="nav nav-center">
+    <span id="nav-toggle" class="nav-toggle"  onclick="document.getElementById('nav-menu').classList.toggle('is-active');">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <div id="nav-menu" class="nav-left nav-menu">
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/">Main</a>
+      </span>
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/#about">About</a>
+      </span>
+      
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/blog">Back to blog</a>
+      </span>
+      
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/#contact">Contact</a>
+      </span>
+    
+      <span class="nav-item">
+        <a href="https://huckleberryinsights.github.io/index.xml"><i class="fa fa-rss"></i></a>
+      </span>
+    
+    </div>
+</nav>
+<hr>
+
+    </div>
+
+    <div class="container fade-in two">
+        <h2 class="title is-1 top-pad strong-post-title"><a href="https://huckleberryinsights.github.io/blog/2017-04-13-publishing-documents/">Knitting to Output with Rmarkdown</a></h2>
+            <div class="post-data">
+                Apr 00, 13048 |
+                6 minutes read
+            </div>
+
+            
+                <div class="blog-share">
+                Share this:
+                
+                <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Read%20Knitting%20to%20Output%20with%20Rmarkdown%20https%3a%2f%2fhuckleberryinsights.github.io%2fblog%2f2017-04-13-publishing-documents%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+                </a>
+                
+                 
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhuckleberryinsights.github.io%2fblog%2f2017-04-13-publishing-documents%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+                </a>
+                
+                
+                
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhuckleberryinsights.github.io%2fblog%2f2017-04-13-publishing-documents%2f"
+                onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                <i class="fa fa-google-plus"></i>
+                <span class="hidden">Google+</span>
+                </a>
+                
+                </div>
+            
+
+    </div>
+
+    <div class="container markdown fade-in two top-pad">
+        <div id="tutorials-purpose" class="section level3">
+<h3>Tutorial’s purpose</h3>
+<p>Manipulating data and building visuals is the bread and butter of the R language - but what can get lost in the fold is the ability to easily and quickly push analysis out for folks to see. Using <code>knitr</code> and <code>rmarkdown</code> makes that significantly easier, and exists at the press of a button. In this tutorial, we’re going to press those buttons.</p>
+</div>
+<div id="what-are-the-packages" class="section level3">
+<h3>What are the packages?</h3>
+<p>There are a ton of ways to get information from R out into the world - ranging from static Word or PDF documents all the way to interactive web applications. However, this is going to focus more on the former than the latter - publication of static files (with the possibility of embedding interactive graphics as well).</p>
+<p>To do this, we rely heavily on two packages - <code>knitr</code> and <code>rmarkdown</code></p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Package</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rmarkdown</code></td>
+<td>Convert R Markdown documents into HTML, Word, or PDF files</td>
+</tr>
+<tr class="even">
+<td><code>knitr</code></td>
+<td>Package to build dynamic and flexible reports</td>
+</tr>
+</tbody>
+</table>
+<p>Using both of these, we can take our R markdown documents and quickly <em>knit</em> them into more user-friendly reports or static web pages, and then render them appropriately. Go ahead and install these and read them in if you haven’t already</p>
+<pre class="r"><code>library(knitr)
+library(rmarkdown)</code></pre>
+</div>
+<div id="first-whats-r-markdown" class="section level3">
+<h3>First, what’s R markdown?</h3>
+<p>R markdown is a filetype (<code>.rmd</code>) that supports <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">markdown syntax</a> and code chunk execution within the RStudio IDE. The beauty of R markdown documents (and their counterpart - R notebooks) is that they allow the analyst to weave their narrative around the data analysis itself. In addition, by running your products in R markdown you can very quickly and easily render the file into new formats that look less codey and more pretty (this post, for instance, was written in R markdown).</p>
+<p><strong>How does it work?</strong></p>
+<p>To set up an R markdown, simply select <code>R Markdown</code> in the dropdown selection when you start a new file.</p>
+<div class="figure">
+<img src="https://huckleberryinsights.github.io/img/rmd-new-file-select.PNG" alt="New rmd file" />
+<p class="caption">New rmd file</p>
+</div>
+<p>After you select R markdown, a message window will pop up and ask you some info about the document you will ultimately want to create. This includes the name of the document, the author, and what the final filetype will be (HTML, PDF, or Word). In our case, we are going to choose HTML.</p>
+<div class="figure">
+<img src="https://huckleberryinsights.github.io/img/rmd-file-params.PNG" alt="File parameters" />
+<p class="caption">File parameters</p>
+</div>
+<p>Once you’ve made your selection, a new R markdown file will open in your Source panel with some stuff already pre-populated throughout. This initial file is sort of a tutorial - it gives a very brief overview of how it is set up and how to use it. We’ll talk about each section individually.</p>
+<div class="figure">
+<img src="https://huckleberryinsights.github.io/img/rmd-init.PNG" alt="Initial file" />
+<p class="caption">Initial file</p>
+</div>
+<p><strong>Front-matter matters</strong></p>
+<p>At the top of your R markdown document will be ‘YAML front-matter’ contained within two sets of <code>---</code> - this section will inform <code>knitr</code> how to create the document when we choose to knit it. Since we set up our file parameters to output as HTML, our front-matter designates the output as <code>html_document</code> - and the title and (if we put one in) the author will be displayed here as well.</p>
+<div class="figure">
+<img src="https://huckleberryinsights.github.io/img/rmd-yaml.PNG" alt="YAML" />
+<p class="caption">YAML</p>
+</div>
+<p>It is also possible to include metadata in the front-matter, such as tags or any type of categorization of your post. You can also assign various themes, assign a tabloe of contents, or even reference your own CSS styling to be applied to the final product. I’m not going to get into detail with that, but if you’re interested checkout RStudio’s <a href="http://rmarkdown.rstudio.com/html_document_format.html">tutorials on R markdown here</a>.</p>
+<p><strong>Do work(space)</strong></p>
+<p>Below the YAML front-matter is where the magic <em>really</em> happens - because this is where the actual analysis takes place. When you look at an R markdown document, it is generally cut up by what are called “code chunks.” These are sections of the document that are surrounding by three backticks. In markdown, ````` denotes a chunk of computer code - and that’s the same in R markdown.</p>
+<p>Along with these three backticks, you will notice a language specification (it’s almost <em>always</em> just r, but now <code>knitr</code> supports <a href="http://rmarkdown.rstudio.com/authoring_knitr_engines.html">several different languages</a>) as well as a general section title and some rules about the output of the chunk. When the document is knitted, the chunks will be executed and the results of the code will be displayed in the final output (unless you specifically tell it to be hidden).</p>
+<div class="figure">
+<img src="https://huckleberryinsights.github.io/img/rmd-code-chunk.PNG" alt="Code chunk" />
+<p class="caption">Code chunk</p>
+</div>
+<p>Areas outside of the code chunks - which is everything <em>not</em> surrounded by three backticks - are free text space. The text in this area adheres to markdown syntax, giving the analyst the ability to take full power of the ease in creating formatted text to be rendered. The combination of the free text space and the code execution is fantastic for project work, as you can inject your narrative directly into the analysis itself.</p>
+<div class="figure">
+<img src="https://huckleberryinsights.github.io/img/rmd-free-text.PNG" alt="Free text" />
+<p class="caption">Free text</p>
+</div>
+<p>In addition, you can run the script within the IDE just as if it was a plain R script as well - RStudio will execute the code chunks and even display the output of those chunks interactively beneath them within your Source panel if you have the most up-to-date version of RStudio installed. Essentially, R markdown documents are a one-stop shop for running projects in RStudio!</p>
+</div>
+<div id="cool---what-now" class="section level3">
+<h3>Cool - what now?</h3>
+<p>Now that we know how to start and use R markdown documents, let’s talk about how to knit them. Because ultimately, all we have done up until now is replace an R script that you would never send to a non-analyst (read: normal) person with an R markdown document that you would also never send to a non-analyst person. This is where <code>knitr</code> comes into play.</p>
+<p>At the top of your Source panel is a button that says, appropriately, “Knit.” When you click that button a file window will ask you to save your file.</p>
+<div class="figure">
+<img src="https://huckleberryinsights.github.io/img/rmd-knit.PNG" alt="Knit" />
+<p class="caption">Knit</p>
+</div>
+<p>Once you have named and saved your file, it will begin to be processed and a new file will be created based on the filetype specified in the YAML front-matter we talked about before. Since we have ours set to <code>html_document</code>, an HTML file is created. By default, RStudio will display the new file in a new window for you to view - or you can just open the file to view in a browser (or whatever based on your filetype).</p>
+<div class="figure">
+<img src="https://huckleberryinsights.github.io/img/rmd-render.PNG" alt="Render" />
+<p class="caption">Render</p>
+</div>
+<p>You can then either send the final output on to your final audience, or even host it as a standalone webpage or blogpost - and your analysis, visualizations, and narrative will be available for all to see! Also - this includes interactive charts as well - <code>knitr</code> will appropriately render those as well if you are using interactive plotting packages like <code>plotly</code> which rely on JavaScript libraries.</p>
+<p>That’s all it takes! If you’re interested in checking out more - dive into <a href="http://rmarkdown.rstudio.com/gallery.html">the R markdown gallery</a> - there are a ton of great examples that provide their source code as well. Have fun, and go build cool stuff!</p>
+</div>
+
+    </div>
+
+    <div class="disqus">
+        
+    </div>
+
+<div class="container has-text-centered top-pad">
+<hr>
+<a href="https://huckleberryinsights.github.io/blog/2017-04-13-publishing-documents/#top"><i class="fa fa-arrow-up"></i></a>
+<hr>
+</div>
+
+<div class="section" id="footer">
+    <div class="container has-text-centered">
+        
+        <span class="footer-text"><a href="https://github.com/hivickylai/hugo-theme-introduction" target="_blank" rel="noopener">Introduction</a> theme for <a href="http://gohugo.io/" target="_blank" rel="noopener">Hugo</a>. Made with <i class="fa fa-heart"></i> and <i class="fa fa-coffee"></i>. <a href="https://vickylai.io" target="_blank" rel="noopener">Vicky Lai</a> 2018</span>
+        
+    </div>
+</div>
+
+</div>
+</div>
+
+
+<script>
+$('a[href^="https:\/\/huckleberryinsights.github.io\/blog\/2017-04-13-publishing-documents\/#"]').click(function(e) {
+    e.preventDefault();
+    var target = this.hash;
+    $('html, body').animate({
+    scrollTop: $(target).offset().top
+    }, 500);
+    return false;
+})
+</script>
+
+</body>

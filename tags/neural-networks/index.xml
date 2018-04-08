@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Neural Networks on Introduction</title>
+    <link>https://huckleberryinsights.github.io/tags/neural-networks/</link>
+    <description>Recent content in Neural Networks on Introduction</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://huckleberryinsights.github.io/tags/neural-networks/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using ANN To Predict Euthanasia in LMAS Intake</title>
+      <link>https://huckleberryinsights.github.io/projects/2017-11-29-predicting-euthanasia-ann/</link>
+      <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://huckleberryinsights.github.io/projects/2017-11-29-predicting-euthanasia-ann/</guid>
+      <description>Overview and IntroductionDriven by the desire to do something as fun and interesting as this post by the folks at Decision Science, I decided to dust off some previous work done on Louisville Metro Animal Services Animal [“LMAS”] Intake and Outcome data (you can get it here). The problems are sort of the same at the core - while the linked work focuses on customer churn, this analysis will focus on what information tends to predict a given animal will be euthanized at LMAS using Artificial Neural Networks (“ANN”).</description>
+    </item>
+    
+  </channel>
+</rss>

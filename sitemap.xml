@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/projects/photography/</loc>
+    <lastmod>2017-11-13T12:21:21-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/projects/design/</loc>
+    <lastmod>2017-11-13T12:21:16-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/projects/writing/</loc>
+    <lastmod>2017-11-13T12:21:11-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/projects/2017-11-29-predicting-euthanasia-ann/</loc>
+    <lastmod>2017-12-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/blog/2017-05-09-d3-with-rmd/</loc>
+    <lastmod>2017-05-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/blog/2017-04-13-publishing-documents/</loc>
+    <lastmod>2017-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/blog/2017-04-11-into-the-tidyverse/</loc>
+    <lastmod>2017-04-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/blog/2017-04-04-scrapy-overview/</loc>
+    <lastmod>2017-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/contact/</loc>
+    <lastmod>2017-03-09T13:23:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/about/</loc>
+    <lastmod>2017-03-09T13:19:25+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/blog/2015-07-23-r-rmarkdown/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/blog/</loc>
+    <lastmod>2017-05-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/d3.js/</loc>
+    <lastmod>2017-05-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/data-collection/</loc>
+    <lastmod>2017-04-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/deepl-learning/</loc>
+    <lastmod>2017-12-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/html/</loc>
+    <lastmod>2017-04-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/</loc>
+    <lastmod>2017-11-13T12:21:21-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/knit/</loc>
+    <lastmod>2017-04-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/lmas/</loc>
+    <lastmod>2017-12-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/manipulation/</loc>
+    <lastmod>2017-04-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/neural-networks/</loc>
+    <lastmod>2017-12-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/open-data/</loc>
+    <lastmod>2017-12-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/plot/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/projects/</loc>
+    <lastmod>2017-11-13T12:21:21-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/python/</loc>
+    <lastmod>2017-04-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/r/</loc>
+    <lastmod>2017-04-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/categories/r/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/r-markdown/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/regression/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/rmarkdown/</loc>
+    <lastmod>2017-05-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/categories/statistical-learning/</loc>
+    <lastmod>2017-12-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/</loc>
+    <lastmod>2017-05-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/tidyverse/</loc>
+    <lastmod>2017-04-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/categories/tutorials/</loc>
+    <lastmod>2017-05-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/visualization/</loc>
+    <lastmod>2017-05-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://huckleberryinsights.github.io/tags/web-scraping/</loc>
+    <lastmod>2017-04-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
