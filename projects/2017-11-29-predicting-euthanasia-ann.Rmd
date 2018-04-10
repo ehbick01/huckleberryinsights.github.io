@@ -1,9 +1,10 @@
 ---
-title: "Using ANN To Predict Euthanasia in LMAS Intake"
+title: "Using Data to Reduce Euthanasia Rates"
 author: "Eric Bickel"
 date: "2017-12-03"
+image: "img/correlation_plot.png"
 categories: ["Statistical Learning"]
-tags: ["deepl learning", "neural networks", "open data", "lmas"]
+tags: ["deep learning", "neural networks", "open data", "lmas"]
 draft: false
 ---
 
@@ -64,60 +65,20 @@ ggplot2::theme_set(
     )
   )
 
-```
-## Overview and Introduction
-
-Driven by the desire to do something as fun and interesting as [this post](http://www.business-science.io/business/2017/11/28/customer_churn_analysis_keras.html?utm_content=buffer53b98&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer) by the folks at Decision Science, I decided to dust off some previous work done on Louisville Metro Animal Services Animal ["LMAS"] Intake and Outcome data (you can get it [here](https://data.louisvilleky.gov/dataset/animal-service-intake-and-outcome)). The problems are sort of the same at the core - while the linked work focuses on customer churn, this analysis will focus on what information tends to predict a given animal will be euthanized at LMAS using Artificial Neural Networks ("ANN").
-
-This is also somewhat personal for me. Over the past year, our family has gone from four wonderful animals down to just one - and we are strongly considering adopting a new family member as a companion to our two kids. If I can identify an at-risk animal at LMAS, then I would love to rescue that animal ASAP. So - this is a fun project with hopefully a happy ending!
-
-Before we jump into the data, let's take a look at what tools we are loading in and our source for the data itself:
-
-```{r load-up, echo = TRUE, include = TRUE}
-
-## Load Packages
-
-# Data manipulation and pre-processing
-library(tidyverse)
-library(magrittr)
-library(tidyquant)
-library(recipes)
-library(rsample)
-library(data.table)
-
-# Data modeling
-library(keras)
-library(lime)
-library(yardstick)
-library(corrr)
-library(forcats)
-
-# Data visualization
-library(ggiraph)
-library(formattable)
-library(DT)
-
 ## Read in Data
 
 # Read in LMAS data
 lmas_data_raw <- read_csv("../../../huckleberry_source/data/Animal_IO_Data_1.csv")
 
-```
-
-Now, let's take a look at the data. The file contains roughly 20 columns of information of every animal that has come through the doors of LMAS since the early 2000s through this year. We have everything from the traditional cats and dogs all the way to the less-than-traditional livestock and rodents. In total, there are `r nrow(lmas_data_raw) %>% comma(0)` rows of data here - meaning over that timeframe, that many animals have been brought into the LMAS system.
-
-Of those that have come in, `r nrow(lmas_data_raw %>% filter(OutcomeType == "EUTH")) %>% comma(0)` have been euthanized through the years. The goal of this work is to figure out why - and try and keep it from happening at least one more time.
-
-```{r view-data, echo = TRUE, include = TRUE}
-
-# Take a glimpse at the data
-glimpse(lmas_data_raw)
 
 ```
+## Overview and Introduction
 
-I think it's important to note that the trend of euthanasias has been going down for LMAS since the mid-2000s. In 2007, euthanasias peaked at just north of 10,000 and so far through 2017 they're just south of 1,000 - which is just 10% of their peak a decade ago. You can see the steady decline in the chart below:    
+The bulk of this work - including methodology and data sources (and fun visuals!) - currently sits in the [blog]("https://huckleberryinsights.github.io/blog/") section if you want to read through it. This write-up provides only a quick synopsis of the work covered there, and any learnings.
 
-```{r basic-plots, include = TRUE}
+There were a number of key findings in the analysis that could be of use. First and foremost, euthanasia rates seem to be on the decline over the years. In 2007, euthanasias peaked at just north of 10,000 and so far through 2017 they're just south of 1,000 - which is just 10% of their peak a decade ago. You can see the steady decline in the chart below:    
+
+```{r basic-plots, echo = FALSE}
 
 # Plot euthanasias by year
 per_year_plot <- lmas_data_raw %>% 
@@ -155,761 +116,104 @@ ggiraph(code = print(per_year_plot),
   
 ```
 
-However, 1,000 a year is still quite a bit. In order to push that number even lower, we need to understand what the risk factors are for euthanasia for an animal. If we understand that, maybe we can help inform targeting resources to getting at-risk animals in front of folks. If nothing else, maybe I can help use it to direct my attention to adopting an animal with a high risk for euthanasia. So, let's get started...
+However, over the same period total intake has also declined (althought, not quite as significantly as euthanasias). Intake rates peaked in 2008 at nearly 18,000 animals and currently are just under 9,000 for 2017. This 50% decline would certainly imply that in total - there are fewer animals for LMAS to euthanize. This is important to keep in mind, as declines in euthanasia rates are going to be dependent upon this larger trend!
 
-## Feature Engineering and Data Pruning
+```{r intake-plots, echo = FALSE}
 
-There are a few fields that by themselves are not extremely interesting, but with a bit of feature design could be pretty informative:
-
-+ `DOB`
-
-+ `Intake Date`
-
-+ `Outcome Date`
-
-By themselves, these don't tell us a whole lot. But using them, we can calculate an age (where DOB is provided) and length_of_stay (where known). This gives us the chance to use these as features in our final model. Once we have those ran, we can get rid of these as they are likely less informative than their derived features.
-
-Additionally, it looks like there are a lot of NA values for some of the fields - too many to warrant dropping the rows completely while also not having enough non-NA values to use for imputing the missing data. For instance, `r (sum(length(which(is.na(lmas_data_raw$SecondaryBreed)))) / nrow(lmas_data_raw)) %>% percent(0)` of `Secondary Breed`, `r (sum(length(which(is.na(lmas_data_raw$IntakeReason)))) / nrow(lmas_data_raw)) %>% percent(0)` of `Intake Reason`, and `r (sum(length(which(is.na(lmas_data_raw$SecondaryColor)))) / nrow(lmas_data_raw)) %>% percent(0)` of `Secondary Color`. For `Intake Reason` I am actually going to keep those in because I am curious if having an unknown age is meaningful and if a known intake reason significantly sways the results, but for the other columns I am unfortunately going to need to remove them for the analysis.
-
-```{r feature-engineering, echo = TRUE, include = TRUE}
-
-## Feature Engineering
-euth_data_tbl <- lmas_data_raw %>% 
-  # Remove intake where euthanasia was requested
-  filter(!grepl("EUTH", IntakeReason),
-         !grepl("EUTH", IntakeType),
-         !grepl("EUTH", IntakeSubtype)) %>% 
-  # Reorder columns w/ OutcomeType upfront
-  mutate(
-    # Re-classify outcome type for euthanasia
-    animal_euth = case_when(
-      OutcomeType == "EUTH" ~ 1,
-      TRUE ~ 0
-    ),
-    # Create age variable
-    age = ((today() - ymd(DOB)) / 365) %>% as.integer(),
-    # Calculate duration of length_of_stay
-    length_of_stay = (ymd(as.Date(OutcomeDate)) - ymd(as.Date(IntakeDate))) %>% as.integer()) %>% 
-  # Remove columns
-  select(
-    # Remove unique outcome type (I've re-classified this)
-    # Keep AnimalID to add back into table for reporting later
-    -OutcomeType,
-    # Remove feature engineered variables
-    -IntakeDate,
-    -DOB,
-    -OutcomeDate,
-    # Remove variables with too many NAs
-    -SecondaryBreed,
-    -SecondaryColor,
-    # Remove variables relating to outcome
-    -OutcomeSubtype,
-    -OutcomeReason,
-    -OutcomeInternalStatus,
-    -OutcomeAsilomarStatus,
-    -ReproductiveStatusAtOutcome) %>% 
-  # Reclassify NAs as -99 for age and unknown for intake reason and replace negative length_of_stay with 0
-  mutate(
-    age = case_when(
-      is.na(age) ~ 0.01 %>% as.double(),
-      age <=0 ~ 0.01 %>% as.double(),
-      TRUE ~ age %>% as.double()
-    ),
-    IntakeReason = case_when(
-      is.na(IntakeReason) ~ "unknown",
-      TRUE ~ IntakeReason
-    ),
-    length_of_stay = case_when(
-      length_of_stay < 0 ~ 0 %>% as.double(),
-      TRUE ~ length_of_stay %>% as.double()
-    )
-  ) %>% 
-  # Move target to the first column
-  select(animal_euth,
-         everything()) %>% 
-  # Drop remaining NA rows
-  drop_na()
-
-# Take a glimpse of the euthanasia table
-glimpse(euth_data_tbl)
-
-```
-
-## Splitting the Data
-
-The last step before transforming our data is to split it into two sets - a *training set* to use for building our model and a *test set* to apply the trained model to for performance measuring. To do this, we will just take a random sampling of our data and split 80% into training and the rest into testing.
-
-```{r data-split, echo = TRUE, include = TRUE}
-
-# Set the seed for reproducibility
-set.seed(1620)
-
-# Create splits
-splits <- initial_split(euth_data_tbl, prop = 0.8)
-
-# Split data into train and test sets
-euth_train_tbl <- training(splits)
-euth_test_tbl  <- testing(splits) 
-
-# Save AnimalID for train and test (merge back in later) 
-animalID_train <- euth_train_tbl$AnimalID
-animalID_test <- euth_test_tbl$AnimalID
-
-# Remove animalID from train and test
-euth_train_tbl$AnimalID <- NULL
-euth_test_tbl$AnimalID <- NULL
-
-glimpse(euth_train_tbl)
-glimpse(euth_test_tbl)
-
-```
-
-## Transforming the Data
-
-Now that we have the data we want and engineered a few features, we need to transform for modeling. Certain variables will become individual dummy variables (the character stuff like `Gender`, `AnimalType`, etc.) but `age` and `length_of_stay` will likely need to be binned into groups for the sake of modeling.
-
-### Grouping data together
-
-First, let's focus on the numeric values and group them into appropriate values - starting with `age`. At first glance, there seems to be some skew in age - suggesting a log transformation may be best. When we do that, we can see that the distribution is slightly more normal from the logarithmic transformation - and testing a correlation suggests it might help the model in the end. So, based on that test we will run with the log transformation for our model.
-
-```{r age-exploration, echo = TRUE, include = TRUE}
-
-# Plot count of age
-euth_train_tbl %>% 
-  ggplot(aes(x = age)) + 
-  geom_histogram(fill = "#404040") + 
-  scale_y_continuous(labels = comma) + 
-  labs(title = "Count of Age",
-       subtitle = "Ignoring the -99 values denoting 'unknown', age is fairly normally distributed")
-
-# We can do a better job of transforming the data
-euth_train_tbl %>% 
-  ggplot(aes(x = log(age))) + 
-  geom_histogram(fill = "#404040") + 
-  scale_y_continuous(labels = comma) + 
-  labs(title = "Count of Age",
-       subtitle = "Logging the age variable gives us a more normal distribution")
-
-# Determine if log transformation improves correlation 
-euth_train_tbl %>%
-    select(animal_euth, age) %>%
-    mutate(
-        logAge = log(age)
-        ) %>%
-    correlate() %>%
-    focus(animal_euth) %>%
-    fashion()
-
-```
-
-Next, we want to take a look at `length_of_stay`. Unlike `age`, the length_of_stay variable is more uniformly distributed. BEcause of this, we can take advantage of grouping the variable into more distinct bins - letting us generalize the relationship of length_of_stay a bit more.  
-
-```{r length_of_stay-exploration, echo = TRUE, include = TRUE}
-
-# Plot count of length_of_stay
-euth_train_tbl %>% 
-  filter(length_of_stay <= 365) %>%
-  group_by(length_of_stay) %>% 
+# Plot intake by year
+per_year_plot <- lmas_data_raw %>% 
+  filter(year(IntakeDate) > 2005) %>% 
+  group_by(year(IntakeDate)) %>% 
   summarise(total = n()) %>% 
-  ggplot(aes(x = length_of_stay)) + 
-  geom_histogram(fill = "#404040",
-                 colour = "#ffffff") + 
+  rename(timeframe = `year(IntakeDate)`) %>% 
+  ggplot(aes(x = factor(timeframe), 
+             y = total)) +
+  geom_bar_interactive(stat = "identity",
+                       fill = "#404040",
+                       aes(
+                         tooltip = paste0(
+                           "<b> Year: </b>",
+                           factor(timeframe),
+                           "<br><b> Total Intake: </b>",
+                           total %>% comma(0)
+                         ),
+                         data_id = paste0(
+                           "<b> Year: </b>",
+                           factor(timeframe),
+                           "<br><b> Total Intake: </b>",
+                           total %>% comma(0)
+                         ))
+                       ) +
   scale_y_continuous(labels = comma) + 
-  labs(title = "Count of Length of Stay",
-       subtitle = "The distribution of length of stay is far less skewed than age")
+  labs(title = "Intake Totals per Year",
+       subtitle = "Animal intakes peaked in 2008, and have steadily declined since")
 
-# Plot count of length_of_stay
-euth_train_tbl %>% 
-  filter(length_of_stay <= 365) %>%
-  group_by(length_of_stay) %>% 
-  summarise(total = n()) %>% 
-  ggplot(aes(x = length_of_stay)) + 
-  geom_histogram(bins = 5,
-                 fill = "#404040",
-                 colour = "#ffffff") + 
-  scale_y_continuous(labels = comma) + 
-  labs(title = "Count of Length of stay",
-       subtitle = "Using bins of five to reduce variance within groups")
-
-
-```
-
-### Creating dummy variables
-
-I have a life-long goal of never using "one-hot-encoding" in an actual write-up, because I feel like "dummy variable" is a much better word and less fanciful. This process takes every single unique option of our categorical variables (again, variables like `Gender` and `AnimalType`) and creates individual variables for every option - and fills those variables with 1's or 0's denoting whether that condition exists or does not. For instance, for the `Gender` field we have variables like `NEUTERED MALE`. This process will create a new variable called `NEUTERED MALE` and register 1 whenever an animal is in fact a neutered male and a 0 whenever they are not. We do this process for every single character field - it will create *a lot* of new variables. Thankfully, we can process this with the `recipes` package - but it's important to understand what we are doing.
-
-## Creating Our Recipe for Pre-Processing
-
-### First we prepare our recipe
-
-A recipe is a step-by-step procedure for processing our data prior to modeling - just the same as baking a cake, we follow these steps to bake our model. Within these steps, we will create our bins for length_of_stay, log transform the age, create dummy variables for categorical variables, and center / scale our data to gain efficiency in the neural net model.
-
-```{r create-recipe, echo = TRUE, include = TRUE}
-
-# Create recipe
-train_recipe <- recipe(animal_euth ~ ., data = euth_train_tbl) %>%
-  # Create 5 cuts of length_of_stay
-  step_discretize(length_of_stay, options = list(cuts = 5)) %>%
-  # Log transform age
-  step_log(age) %>%
-  # Generate dummy variables for all categoryical variables
-  step_dummy(all_nominal(), -all_outcomes()) %>%
-  # Center data
-  step_center(all_predictors(), -all_outcomes()) %>%
-  # Scale data
-  step_scale(all_predictors(), -all_outcomes()) %>%
-  # Prepare the recipe
-  prep(data = euth_train_tbl)
-
-# View the recipe
-train_recipe
-
-# Create recipe
-test_recipe <- recipe(animal_euth ~ ., data = euth_test_tbl) %>%
-  # Create 5 cuts of length_of_stay
-  step_discretize(length_of_stay, options = list(cuts = 5)) %>%
-  # Log transform age
-  step_log(age) %>%
-  # Generate dummy variables for all categoryical variables
-  step_dummy(all_nominal(), -all_outcomes()) %>%
-  # Center data
-  step_center(all_predictors(), -all_outcomes()) %>%
-  # Scale data
-  step_scale(all_predictors(), -all_outcomes()) %>%
-  # Prepare the recipe
-  prep(data = euth_test_tbl)
-
-# View the recipe
-test_recipe
-
-
-```
-
-### Next we bake
-
-Now that we have our recipe for pre-processing our data, we can apply that pre-processing (bake the recipe) against our training and test sets. Speaking from experience - this is *insanely* more efficient than the days of having to apply functions across your data. I wish this existed years ago!
-
-```{r bake-recipe, include = TRUE, echo = TRUE}
-
-# Set and process predictors
-x_euth_train_tbl <- bake(train_recipe, newdata = euth_train_tbl)
-x_euth_test_tbl  <- bake(test_recipe, newdata = euth_test_tbl)
-
-# This isn't perfectly stratified, so remove columns from train that are not in test
-x_euth_train_tbl <- x_euth_train_tbl[, which(names(x_euth_train_tbl) %in% names(x_euth_test_tbl))]
-
-# Do the same with the test set
-x_euth_test_tbl <- x_euth_test_tbl[, which(names(x_euth_test_tbl) %in% names(x_euth_train_tbl))]
-
-# Take a look at the two dataframes
-glimpse(x_euth_train_tbl[1:10])
-glimpse(x_euth_test_tbl[1:10])
-
-```
-
-### Capture target 
-
-In order to compare predictions to true data, we need to capture our training and test set target variable and store for comparison:
-
-```{r grab-target, include = TRUE, echo = TRUE}
-
-# Response variables for training and testing sets
-y_euth_train_vec <- pull(euth_train_tbl, animal_euth)
-y_euth_test_vec  <- pull(euth_test_tbl, animal_euth)
-
-```
-
-## Run the Model
-
-Now that we have our data processed and staged, we can build our Artificial Neural Network model. It seems like we did a lot just to finally get here, but typically that's the case. The first 95% of the work done on a machine learning model is all data cleansing and processing - so we're down to the final 5% - model building! 
-
-For some background, an ANN model is a multi-layered modeling approach designed to identify hidden interactions across individual variables that otherwise might go unseen. It's extremely accurate as compared to more traditional modeling techniques, but also tends to be pretty "black box" in nature - so there is some tradeoff. Right now, I just want to get the thing running - once that happens, we can walk through ways to shed some light on the black box.
-
-### Initialize the model
-
-Our first step is to initialize a sequential Keras model, and then add input/hidden/output layers to the sequential model. 
-
-+ The `input layer` is the data itself
-
-+ The `hidden layers` define the interactions between variables based on neural network nodes and the weights between them - there are also `dropout layers` which are used to control for overfitting
-
-+ The `output layer` defines the method of bringing all of the information together
-
-```{r build-keras, echo = TRUE, include = TRUE}
-
-# Building our Artificial Neural Network
-keras_init <- keras_model_sequential()
-
-keras_init %>% 
-    # First hidden layer
-    layer_dense(
-        units = 16, 
-        kernel_initializer = "uniform", 
-        activation = "relu", 
-        input_shape = ncol(x_euth_train_tbl)) %>% 
-    # Dropout to prevent overfitting
-    layer_dropout(rate = 0.1) %>%
-    # Second hidden layer
-    layer_dense(
-        units = 16, 
-        kernel_initializer = "uniform", 
-        activation = "relu") %>% 
-    # Dropout to prevent overfitting
-    layer_dropout(rate = 0.1) %>%
-    # Output layer
-    layer_dense(
-        units = 1, 
-        kernel_initializer = "uniform", 
-        activation = "sigmoid") %>% 
-    # Compile ANN
-    compile(
-        optimizer = 'adam',
-        loss = 'binary_crossentropy',
-        metrics = c('accuracy')
-    )
-
-keras_init
-
-```
-
-### Run the model
-
-Using the `fit()` function on our training data, we can define the number of batches we want to run and the number of training cycles (epochs). Within each *epoch* we define the number of *batch* samples per gradient update. A high batch size will decrease the error within each training cycle (epoch). We can also define validation splits to avoid overfitting among cycles.
-
-```{r fit-model}
-
-# Fit the ANN to our training data
-fit_keras <- fit(
-  object = keras_init,
-  x = as.matrix(x_euth_train_tbl),
-  y = y_euth_train_vec,
-  batch_size = 50,
-  epochs = 35,
-  validation_split = 0.30
-)
-
-```
-
-We can then print out and plot the results of the model to help understand performance against the training set
-
-```{r print-keras, echo = TRUE, include = TRUE}
-
-# Print the final model results
-fit_keras
-
-# Plot the training/validation history of our Keras model
-plot(fit_keras) +
-    labs(title = "ANN Model Performance by Epoch",
-         subtitle = "Accuracy and loss each level out over time")
-
-```
-
-## Making Predictions on Unseen Data
-
-This is a really solid looking model - highly accurate within the training and validation sets. However - what about performance on unseen data? The model we ran against our `training` set may be dramatically underperforming on new data - which is why we sampled a separate chunk of data into a `test` set. We can apply the tuned ANN model to this test data, and see how well it performs.
-
-```{r test-model, echo = TRUE, include = TRUE}
-
-# Create a vector of predictions
-yhat_euth_vec <- predict_classes(object = keras_init, x = as.matrix(x_euth_test_tbl)) %>%
-    as.vector()
-
-# Create a vector of predicted probabilities of animal_euth = 1
-yhat_euth_prob_vec  <- predict_proba(object = keras_init, x = as.matrix(x_euth_test_tbl)) %>%
-    as.vector()
-
-```
-
-### Compare prediction to actual
-
-Now that we have our prediction on the held-out test data and we know the actuals, we can compare results and diagnose accuracy for our model. This is generally done through a combination of a confusion matrix (a 2x2 matrix of true/false predictions vs true/false actuals), and the area under the receiver operating charactersic (AUC, ROC) curve. This measures the True Positive Rate (TPR) vs. False Positive Rate (FPR) - and the area under is maximized when the model is not sacrificing Sensitivity (TPR) for Specificity (True Negative Rate).
-
-So, let's first look at the confusion matrix:
-
-```{r confusion-matrix, echo = TRUE, include = TRUE}
-
-# Format prediction and actuals
-estimates_euth_tbl <- tibble(
-  truth = as.factor(y_euth_test_vec) %>% fct_recode(yes = "1", no = "0"),
-  estimate = as.factor(yhat_euth_vec) %>% fct_recode(yes = "1", no = "0"),
-  class_prob = yhat_euth_prob_vec %>% percent(2)
-)
+ggiraph(code = print(per_year_plot), 
+        width = 1, 
+        height = 6, 
+        hover_css = "cursor:pointer;fill:#ff8500;stroke:#ff8500;")
   
-estimates_euth_tbl
-
-# Create confusion table
-confusion_matrix <- estimates_euth_tbl %>% 
-  conf_mat(truth, estimate)
-
-confusion_matrix
-
 ```
 
-The way to read the confusion matrix is:
+To normalize this, we can look at share of euthanasias against intake numbers per year. This at least helps us control for the single variable of the overall trend in intake numbers. This cut of the analysis shows that the share of euthanasias follows the downward trends observed for euthanasias and intake overall - a good sign for LMAS that their lower intake numbers are at least somewhat distributed toward animals that may have historically been euthanized!
 
-+ For every animal predicted to be euthanized in our test set, `r confusion_matrix$table[4] %>% comma(0)` animals were in fact euthanized (these are **true positives**)
+```{r euth-share, echo = FALSE}
 
-+ For every animal predicted to be euthanized, `r confusion_matrix$table[3] %>% comma(0)` actually were not (these are **false positives**)
-
-+ For every animal not predicted to be euthanized, `r confusion_matrix$table[2] %>% comma(0)` animals were in fact not euthanized (these are **true negatives**)
-
-+ For every animal not predicted ot be euthanized, `r confusion_matrix$table[1] %>% comma(0)` actually were euthanized (these are **false negatives**)
-
-Walking through the numbers, the model seems to have performed pretty well. We can verify that further by calculating the area under the ROC curve - which is a barometer of how well calibrated the model is to the true positive rate and true negative rates (alluded to above). Essentially, the AUC tells us how balanced the model is at identifing animals as being euthanized at the expense of incorrectly identifying those that will **not** be euthanized. 
-
-In our case, the AUC for this model is `r estimates_euth_tbl %>% roc_auc(truth, class_prob) %>% percent(2)`. Which is an extremely strong AUC! There are a couple of other tools to use to diagnose a model - such as the `F1 score`, which calculates a weighted average between the TPR and model's recall (the number of correct positive predictions). In our model, our `F1 score` comes out to `r estimates_euth_tbl %>% f_meas(truth, estimate, beta = 1) %>% percent(2)` - again, an extremely well tuned model it seems.
-
-## Lifting the Black Box
-
-Now, this is all well and good and in theory we can apply this model on new data to predict the risk of any given animal at LMAS to be euthanized - but it doesn't help **identify** the risk factors to shed light on. To do that, we can use a couple of tools - most accessible being a correlation plot from the `corrr` package.
-
-Correlation plots show us individual relationships between each input variable and the target variable. This also stands as a good gut check to the feature importance (which, while not explicitly shown in this post, only age shows value when looking at feature importance on select observations).
-
-```{r correlation-analysis, echo = TRUE, include = TRUE}
-
-# Feature correlations to euthanasia
-corrr_analysis <- x_euth_train_tbl %>%
-    mutate(animal_euth = y_euth_train_vec) %>%
-    correlate() %>%
-    focus(animal_euth) %>%
-    rename(feature = rowname) %>%
-    arrange(abs(animal_euth)) %>%
-    mutate(feature = as_factor(feature)) 
-
-corrr_analysis %>% arrange(desc(animal_euth))
-
-```
-
-Interestingly, when we look at the global relationships through correlation analysis we find that `ReproductiveStatusAtIntake_UNKNOWN` comes through as fairly significant positively, while `age` maintains a strong negative relationship. We can also visualize this information to show the differences.
-
-```{r correlation-plot, echo = TRUE, include = TRUE} 
-
-# Correlation visualization
-corr_plot <- corrr_analysis %>%
-  ggplot(aes(x = animal_euth, y = fct_reorder(feature, desc(animal_euth)))) +
-  geom_point() +
-  # Positive Correlations - Contribute to churn
-  geom_segment(aes(xend = 0, yend = feature), 
-               color = "#FF2C00", 
-               data = corrr_analysis %>% filter(animal_euth > 0)) +
-    geom_point_interactive(color = "#FF2C00",
-                           data = corrr_analysis %>% filter(animal_euth > 0),
-                           aes(tooltip = paste0(
-                             "<br><b> Feature: </b>",
-                             feature,
-                             "<br><b> Correlation: </b>",
-                             animal_euth %>% percent(0)
-                             ),
-                             data_id = paste0(
-                             "<br><b> Feature: </b>",
-                             feature,
-                             "<br><b> Correlation: </b>",
-                             animal_euth %>% percent(0)
-                             )
-                             )) +
-    # Negative Correlations - Prevent churn
-    geom_segment(aes(xend = 0, yend = feature),
-                 color = "#00AEF0", 
-                 data = corrr_analysis %>% filter(animal_euth < 0)) +
-    geom_point_interactive(color = "#00AEF0",
-                           data = corrr_analysis %>% filter(animal_euth < 0),
-                           aes(tooltip = paste0(
-                             "<br><b> Feature: </b>",
-                             feature,
-                             "<br><b> Correlation: </b>",
-                             animal_euth %>% percent(0)
-                             ),
-                             data_id = paste0(
-                             "<br><b> Feature: </b>",
-                             feature,
-                             "<br><b> Correlation: </b>",
-                             animal_euth %>% percent(0)
-                             )
-                             )) +
-    # Vertical lines
-    geom_vline(xintercept = 0, color = "#A6A5A5", size = 1, linetype = 2) +
-    geom_vline(xintercept = -0.25, color = "#A6A5A5", size = 0.75, linetype = 2) +
-    geom_vline(xintercept = 0.25, color = "#A6A5A5", size = 0.75, linetype = 2) +
-    # Aesthetics
-    labs(title = "Animal Euthanasia Correlation Analysis",
-         subtitle = "Positive Correlations (contribute to euthanasia), \nNegative Correlations (prevent euthanasia)",
-         y = "Feature",
-         x = "Correlation") + 
-  theme(axis.text.y = element_blank(),
-        axis.ticks = element_blank())
-
-ggiraph(code = print(corr_plot), 
-        width = 1, 
-        height = 6, 
-        hover_css = "cursor:pointer;fill:#ff8500;stroke:#ff8500;")
-```
-
-With over 500 variables to test, this is a bit messy to look at. So let's limit down to just those variables with either less than -0.25 or greater than 0.25 correlation. At that point, it's a flip of a coin whether a given feature is influencing the variation in euthanasias.
-
-```{r correlation-plot-significant, echo = TRUE, include = TRUE} 
-
-# Correlation visualization
-corr_significant <- corrr_analysis %>%
-  filter(animal_euth > 0.10 | animal_euth < -0.10)
-
-corr_plot_significant <- corr_significant %>% 
-  ggplot(aes(x = animal_euth, y = reorder(feature, -animal_euth))) +
-  geom_point() +
-  # Positive Correlations - Contribute to churn
-  geom_segment(aes(xend = 0, yend = feature), 
-               color = "#FF2C00", 
-               data = corr_significant %>% filter(animal_euth > 0)) +
-    geom_point_interactive(color = "#FF2C00",
-                           data = corr_significant %>% filter(animal_euth > 0),
-                           aes(tooltip = paste0(
-                             "<br><b> Feature: </b>",
-                             feature,
-                             "<br><b> Correlation: </b>",
-                             animal_euth %>% percent(0)
-                             ),
-                             data_id = paste0(
-                             "<br><b> Feature: </b>",
-                             feature,
-                             "<br><b> Correlation: </b>",
-                             animal_euth %>% percent(0)
-                             )
-                             )) +
-    # Negative Correlations - Prevent churn
-    geom_segment(aes(xend = 0, yend = feature),
-                 color = "#00AEF0", 
-                 data = corr_significant %>% filter(animal_euth < 0)) +
-    geom_point_interactive(color = "#00AEF0",
-                           data = corr_significant %>% filter(animal_euth < 0),
-                           aes(tooltip = paste0(
-                             "<br><b> Feature: </b>",
-                             feature,
-                             "<br><b> Correlation: </b>",
-                             animal_euth %>% percent(0)
-                             ),
-                             data_id = paste0(
-                             "<br><b> Feature: </b>",
-                             feature,
-                             "<br><b> Correlation: </b>",
-                             animal_euth %>% percent(0)
-                             )
-                             )) +
-    # Vertical lines
-    geom_vline(xintercept = 0, color = "#A6A5A5", size = 1, linetype = 2) +
-    geom_vline(xintercept = -0.10, color = "#A6A5A5", size = 0.5, linetype = 2) +
-    geom_vline(xintercept = 0.10, color = "#A6A5A5", size = 0.5, linetype = 2) +
-    geom_vline(xintercept = -0.25, color = "#A6A5A5", size = 0.75, linetype = 2) +
-    geom_vline(xintercept = 0.25, color = "#A6A5A5", size = 0.75, linetype = 2) +
-    # Aesthetics
-    labs(title = "Most Significant Features to Euthanasia",
-         subtitle = "Positive Correlations (contribute to euthanasia), \nNegative Correlations (prevent euthanasia)",
-         y = "",
-         x = "Correlation") + 
-  theme(axis.ticks = element_blank(),
-        axis.text = element_text(size = 6))
-
-ggiraph(code = print(corr_plot_significant), 
-        width = 1, 
-        height = 6, 
-        hover_css = "cursor:pointer;fill:#ff8500;stroke:#ff8500;")
-```
-
-This lets us see a little more clearly what factors weigh most heavily on the odds of an animal being euthanized. We can see that animals with very little known history (unknown reproductive status, unknown gender, unknown intake reason) seems to increase the odds an animal is euthanized. On the flip side, age and whether an animal is neutered or spayed tend to lower the odds. In addition, animals returned or fostered tend to make it out better than not.
-
-The `age` variable is pretty interesting - particularly when we break it down. When looking at feature importance, younger age buckets tend to have a greater level of importance in predicting whether an animal will be euthanized. That conclusion seems to be supported in the correlation analysis - as the negative correlation means an increase in age implies a decrease in likelihood (although, this is a pretty big generalization and the shape of that relationship may be different in later years).
-
-## What Can I Do With This Information?
-
-While this has been an extremely effective way for me to learn new tools and modeling techniques, there is a larger purpose involved as well - as mentioned at the beginning. Ultimately, I wanted to use this work to understand which animals at LMAS have the highest probability for being euthanized. This way I can try and highlight these animals for others who are considering adopting, including my own family.
-
-To do this, we can build a table of animals who are considered **high-risk** in my model and are still at LMAS (as of `r as.Date(max(lmas_data_raw$IntakeDate))`). This table below shows all animals that are currently within the LMAS system - as well as their breed, age, and current length of stay. If you are interested in learning more about any of these animals, you can click on the **Animal ID** and the link will take you to their page at petharbor.com. Please consider looking at these animals - they all deserve great homes!
-
-```{r high-risk, echo = FALSE, include = TRUE}
-
-# Subset LMAS for modeling on current population
-lmas_current_animals <- lmas_data_raw %>% 
-  filter(is.na(OutcomeDate)) %>% 
-  # Perform feature engineering
-  # Reorder columns w/ OutcomeType upfront
-  mutate(
-    # Re-classify outcome type for euthanasia
-    animal_euth = case_when(
-      OutcomeType == "EUTH" ~ 1,
-      TRUE ~ 0
-    ),
-    # Create age variable
-    age = ((today() - ymd(DOB)) / 365) %>% as.integer(),
-    # Calculate duration of length_of_stay
-    length_of_stay = (today() - ymd(as.Date(IntakeDate))) %>% as.integer()) %>% 
-  # Remove columns
-  select(
-    # Remove unique animal id and previous outcome type (I've re-classified this)
-    -OutcomeType,
-    # Remove feature engineered variables
-    -IntakeDate,
-    -DOB,
-    -OutcomeDate,
-    # Remove variables with too many NAs
-    -SecondaryBreed,
-    -SecondaryColor,
-    # Remove variables relating to outcome
-    -OutcomeSubtype,
-    -OutcomeReason,
-    -OutcomeInternalStatus,
-    -OutcomeAsilomarStatus,
-    -ReproductiveStatusAtOutcome) %>% 
-  # Reclassify NAs as -99 for age and unknown for intake reason and replace negative length_of_stay with 0
-  mutate(
-    age = case_when(
-      is.na(age) ~ 0.01 %>% as.double(),
-      age <=0 ~ 0.01 %>% as.double(),
-      TRUE ~ age %>% as.double()
-    ),
-    IntakeReason = case_when(
-      is.na(IntakeReason) ~ "unknown",
-      TRUE ~ IntakeReason
-    ),
-    length_of_stay = case_when(
-      length_of_stay < 0 ~ 0 %>% as.double(),
-      TRUE ~ length_of_stay %>% as.double()
-    )
+# Plot euth share of intake by year
+per_year_plot <- lmas_data_raw %>% 
+  filter(OutcomeType == "EUTH", 
+         year(OutcomeDate) > 2005) %>% 
+  group_by(year(OutcomeDate)) %>% 
+  summarise(total_euth = n()) %>% 
+  rename(timeframe = `year(OutcomeDate)`) %>% 
+  left_join(
+    lmas_data_raw %>% 
+      filter(year(IntakeDate) > 2005) %>% 
+      group_by(year(IntakeDate)) %>% 
+      summarise(total_intake = n()) %>% 
+      rename(timeframe = `year(IntakeDate)`),
+    by = "timeframe"
   ) %>% 
-  # Move target to the first column
-  select(animal_euth,
-         everything()) %>% 
-  # Drop remaining NA rows
-  drop_na()
+  mutate(
+    euth_share = (total_euth / total_intake) %>% percent(1)
+  ) %>% 
+  ggplot(aes(x = factor(timeframe), 
+             y = euth_share)) +
+  geom_bar_interactive(stat = "identity",
+                       fill = "#404040",
+                       aes(
+                         tooltip = paste0(
+                           "<b> Year: </b>",
+                           factor(timeframe),
+                           "<br><b> Euthanasia Share of Intake: </b>",
+                           euth_share %>% percent(1)
+                         ),
+                         data_id = paste0(
+                           "<b> Year: </b>",
+                           factor(timeframe),
+                           "<br><b> Euthanasia Share of Intake: </b>",
+                           euth_share %>% percent(1)
+                         ))
+                       ) +
+  scale_y_continuous(labels = percent) +
+  labs(title = "Euthanasia Share of Intake per Year",
+       subtitle = "The share of euthanasias follow the downward trend of total intake and euthanasias")
 
-# Grab animalID
-animalID <- lmas_current_animals$AnimalID
-
-# Remove animalID
-lmas_current_animals$AnimalID <- NULL
-
-# Apply pre-processing to current population
-# Create recipe
-current_population_recipe <- recipe(animal_euth ~ ., data = lmas_current_animals) %>%
-  # Create 5 cuts of length_of_stay
-  step_discretize(length_of_stay, options = list(cuts = 5)) %>%
-  # Log transform age
-  step_log(age) %>%
-  # Generate dummy variables for all categoryical variables
-  step_dummy(all_nominal(), -all_outcomes()) %>%
-  # Center data
-  step_center(all_predictors(), -all_outcomes()) %>%
-  # Scale data
-  step_scale(all_predictors(), -all_outcomes()) %>%
-  # Prepare the recipe
-  prep(data = lmas_current_animals)
-
-# Set and process predictors
-lmas_current_pop_tbl <- bake(current_population_recipe, 
-                             newdata = lmas_current_animals)
-
-# Reduce down to columns in original models
-lmas_current_pop_tbl <- lmas_current_pop_tbl[, which(names(lmas_current_pop_tbl) %in% names(x_euth_train_tbl))]
-
-### Fit the ANN to our current population data
-
-# Initialize keras model
-keras_current <- keras_model_sequential()
-
-keras_current %>% 
-    # First hidden layer
-    layer_dense(
-        units = 16, 
-        kernel_initializer = "uniform", 
-        activation = "relu", 
-        input_shape = ncol(lmas_current_pop_tbl)) %>% 
-    # Dropout to prevent overfitting
-    layer_dropout(rate = 0.1) %>%
-    # Second hidden layer
-    layer_dense(
-        units = 16, 
-        kernel_initializer = "uniform", 
-        activation = "relu") %>% 
-    # Dropout to prevent overfitting
-    layer_dropout(rate = 0.1) %>%
-    # Output layer
-    layer_dense(
-        units = 1, 
-        kernel_initializer = "uniform", 
-        activation = "sigmoid") %>% 
-    # Compile ANN
-    compile(
-        optimizer = 'adam',
-        loss = 'binary_crossentropy',
-        metrics = c('accuracy')
-    )
-
-# Fit the ANN to our current population data
-current_population_prediction <- tibble(
-  "animalID" = animalID,
-  "predicted_outcome" = predict_classes(object = keras_current,
-                                        x = as.matrix(lmas_current_pop_tbl)) %>% as.vector(),
-  "predicted_probability" = predict_proba(object = keras_current,
-                                          x = as.matrix(lmas_current_pop_tbl)) %>% as.vector()
-  ) %>%
-  right_join(lmas_data_raw %>%
-               filter(is.na(OutcomeDate)),
-             by = c("animalID" = "AnimalID")) %>% 
-  filter(predicted_outcome == 1)
-
-# Build table of current population of animals with highest risk of euthanasia
-current_population_prediction %>% 
-  select(animalID,
-         AnimalType,
-         PrimaryBreed,
-         DOB,
-         IntakeDate,
-         predicted_probability) %>% 
-  mutate(Age = ((today() - ymd(DOB)) / 365) %>% as.integer(),
-         "Length of Stay (Days)" = (today() - ymd(as.Date(IntakeDate))) %>% as.integer(),
-         url = paste0("<a href = ",
-                     shQuote(
-                     paste0("http://petharbor.com/detail.asp?ID=",
-                             animalID,
-                           "&LOCATION=LSVL&searchtype=LOST&start=4&stylesheet=include/default.css&friends=1&samaritans=1&nosuccess=0&orderby=Days%20in%20Shelter%20Care&rows=10&imght=120&imgres=thumb&tWidth=200&view=sysadm.v_lsvl&nomax=1&fontface=arial&fontsize=10&miles=20&shelterlist=%27LSVL%27&atype=dog&where=type_dog")),
-                     " target='_blank'>",
-                     animalID,
-                     "</a>")) %>% 
-  arrange(AnimalType,
-          desc(predicted_probability)) %>% 
-  rename("Animal ID" = url,
-         "Animal Type" = AnimalType,
-         Breed = PrimaryBreed) %>% 
-  select(`Animal ID`,
-         `Animal Type`,
-         Breed,
-         Age,
-         `Length of Stay (Days)`) %>% 
-  formattable() %>% 
-  as.datatable(filter = "top",
-               caption = "To view an animal on this list, please click on the Animal ID") 
-
+ggiraph(code = print(per_year_plot), 
+        width = 1, 
+        height = 6, 
+        hover_css = "cursor:pointer;fill:#ff8500;stroke:#ff8500;")
+  
 ```
 
-## Next Steps
+## Deeper Analysis
 
-This project was ultimately a great opportunity for me to learn several new tools while also helping me to research a topic that I am passionate about. In no way should the list above be considered "official" in terms of what animals will or will not be euthanized by LMAS. The organization has done an **amazing** job at reducing the kill rate at their shelter (as evidenced in the chart at the beginning) - but I hope this analysis will help move folks toward adoption that are considering bringing a new family member into their home.
+Of course - I wanted to get deeper into it. Despite the downward trend in euthanasia, it was interesting to me that we are still seeing double-digit shares in euthanasia rates of total intake. To better understand *why* this is the case, I utilized an [Artificial Neural Network]("https://www.analyticsvidhya.com/blog/2014/10/ann-work-simplified/") model to create predictions around which animals were most likely to be euthanized of the current population of animals at LMAS. There were some interesting key findings (please read the blog post for more detailed analysis), but what stood out the most to me was this correlation plot of the most significant variables:
 
-That said, I want to highlight some "next steps" I am considering before some of the data nerds out there call me out:
+[](img/correlation_plot.png)
 
-### Data Limitations
-
-First, I would like to point out that the data we are working with here is *not* perfect by any means. The system of collection is not necessarily set up for this type of analysis - and therefore, I would need to spend more time on clean up to get it closer to perfect. There are a couple of areas I am most interested in from a feature engineering standpoint:
-
-**Multiple Visits**
-
-Some of these animals are frequent visitors at LMAS. It wouldn't be difficult to make this a separate input feature, but honestly I got lazy there. I will be adding this for an update to this - so stay tuned!
-
-**Temporal Differences**
-
-As mentioned earlier, the rate of euthanasia is decreasing over time. Because of this, it's not exactly perfect to use a generalized model built over several years to this year. That said, any bias would be generalized across the board most likely as it seems to be a population trend and not over represented within any specific groups of animals. Because of this, the conclusion of which animals are **most** at risk still largely stands. The only difference would be that their individual odds may be lower across the board.
-
-### Model Limitations
-
-In the interest of time, I didn't tweak much of what was already done in the original Business-Science article. This was mostly because I used this as an opportunity to learn ANN and `keras`, but also because I wanted to get a fairly well-tuned model out and I am sort of piggybacking on those guys having done the work ahead of time for me to pick some of the right hyperparameters (batch sizes, kernels, etc.). In future updates, I will tune those hyperparameters for this analysis.
+The highest risk of euthanasia exists for animals who have unknown intake reasons and/or unknown reproductive statuses while the variable engineered to estimate an animal's age actually had a negative relationship. The latter insight implies that as animals age - their odds of being euthanized decline. This is an interesting finding as I would have thought the opposite would be true, but this could also be somewhat spurious, temporal as litters of kittens and puppies overpopulate, or a classification issue (by default, I ignored euthanasias that were requested by owners). A deeper dive into the data would be required to parse that out. 
 
 ## Conclusion
 
-Ultimately, I am satisfied with what the results are showing. There are obviously limitations here - but with some more time dedicated, they are fixable and I do not believe they will dramatically shift the outcome. Measured against eachother, the list of animals in the table above represents those that pose the highest risk of euthanasia from my ANN model. Luckily, LMAS has done a tremendous job at pushing the overall rate of euthanasia lower, but they are not able to save every animal -- so please, consider adopting (and consider adopting an animal from that list). The more we adopt, the more LMAS can save!
+Ultimately, I am satisfied with the results of the work. There are obviously limitations here - but with some more time dedicated, they are fixable and I do not believe they will dramatically shift the outcome. In order to help direct individuals to the animals of highest risk to be euthanized, the blog post contains a filterable and searchable list of animals with hyperlinks to their adoption page. Measured against eachother, the list of animals in the table represents those that pose the highest risk of euthanasia from my ANN model. Luckily, LMAS has done a tremendous job at pushing the overall rate of euthanasia lower, but they are not able to save every animal -- so please, consider adopting (and consider adopting an animal from that list). The more we adopt, the more LMAS can save!
