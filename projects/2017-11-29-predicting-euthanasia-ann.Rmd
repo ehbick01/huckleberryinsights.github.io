@@ -2,7 +2,7 @@
 title: "Using Data to Reduce Euthanasia Rates"
 author: "Eric Bickel"
 date: "2017-12-03"
-image: "img/correlation_plot.png"
+# image: "img/correlation_plot.png"
 categories: ["Statistical Learning"]
 tags: ["deep learning", "neural networks", "open data", "lmas"]
 draft: false
@@ -23,10 +23,10 @@ knitr::opts_chunk$set(echo = FALSE,
 # Data manipulation and pre-processing
 library(tidyverse)
 library(magrittr)
-library(tidyquant)
 library(recipes)
 library(rsample)
 library(data.table)
+library(tidyquant)
 
 # Data modeling
 library(keras)
@@ -78,7 +78,7 @@ The bulk of this work - including methodology and data sources (and fun visuals!
 
 There were a number of key findings in the analysis that could be of use. First and foremost, euthanasia rates seem to be on the decline over the years. In 2007, euthanasias peaked at just north of 10,000 and so far through 2017 they're just south of 1,000 - which is just 10% of their peak a decade ago. You can see the steady decline in the chart below:    
 
-```{r basic-plots, echo = FALSE}
+```{r basic-plots, include = TRUE}
 
 # Plot euthanasias by year
 per_year_plot <- lmas_data_raw %>% 
@@ -118,7 +118,7 @@ ggiraph(code = print(per_year_plot),
 
 However, over the same period total intake has also declined (althought, not quite as significantly as euthanasias). Intake rates peaked in 2008 at nearly 18,000 animals and currently are just under 9,000 for 2017. This 50% decline would certainly imply that in total - there are fewer animals for LMAS to euthanize. This is important to keep in mind, as declines in euthanasia rates are going to be dependent upon this larger trend!
 
-```{r intake-plots, echo = FALSE}
+```{r intake-plots, include = TRUE}
 
 # Plot intake by year
 per_year_plot <- lmas_data_raw %>% 
@@ -157,7 +157,7 @@ ggiraph(code = print(per_year_plot),
 
 To normalize this, we can look at share of euthanasias against intake numbers per year. This at least helps us control for the single variable of the overall trend in intake numbers. This cut of the analysis shows that the share of euthanasias follows the downward trends observed for euthanasias and intake overall - a good sign for LMAS that their lower intake numbers are at least somewhat distributed toward animals that may have historically been euthanized!
 
-```{r euth-share, echo = FALSE}
+```{r euth-share, include = TRUE}
 
 # Plot euth share of intake by year
 per_year_plot <- lmas_data_raw %>% 
